@@ -1,19 +1,36 @@
-import { Document, Types, Schema } from "mongoose";
+import { Document, Types, Schema, Model, HydratedDocument } from "mongoose";
 import { CreateUserDTO } from "../../dto/CreateUserDTO";
 import { IUser } from "../../models/userModel/IUser";
 import { IUserRepository } from "./IUserRepository";
 
 export class UserRepository implements IUserRepository{
 
+  constructor(private repository: Model<IUser>){
+    this.repository = repository;
+  }
   
-  
-  registerUserUp(user: CreateUserDTO): Promise<Document<unknown, {}, IUser> & Omit<IUser & { _id: Types.ObjectId; }, never>> {
+  async registerUserUp({name, cpf, birth, email, password, cep, qualified, patio, complement, neighborhood, locality, uf}: CreateUserDTO): Promise<HydratedDocument<IUser>> {
+    const user = await this.repository.create({
+      name,
+      cpf,
+      birth,
+      email,
+      password,
+      cep,
+      qualified,
+      patio,
+      complement,
+      neighborhood,
+      locality,
+      uf
+    });
+
+    return user;
+  }
+  async updateUser(user: CreateUserDTO): Promise<HydratedDocument<IUser>> {
     throw new Error("Method not implemented.");
   }
-  updateUser(user: CreateUserDTO): Promise<Document<unknown, {}, IUser> & Omit<IUser & { _id: Types.ObjectId; }, never>> {
-    throw new Error("Method not implemented.");
-  }
-  deleteUser(id: Schema.Types.ObjectId): void {
+  async deleteUser(id: Schema.Types.ObjectId): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }
