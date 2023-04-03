@@ -20,7 +20,8 @@
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "validate-cpf-joi": "^0.0.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
