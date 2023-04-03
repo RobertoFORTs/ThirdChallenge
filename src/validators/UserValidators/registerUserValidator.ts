@@ -1,13 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
-import ValidCpf from "validate-cpf-joi";
 
 const requestValidation = Joi.object({
   name: Joi.string().required().messages({ "string.required": "Name is required" }),
-  cpf: ValidCpf.string().cpf().required().messages({
-    "string.required":"CPF is required",
-    "string.cpf": "CPF is invalid"
-  }),
+  cpf: Joi.string().required().messages({ "string.required":"CPF is required" }),
   birth: Joi.date().required().messages({ "date.base": "Date time must be a valid date" }), 
   city: Joi.string().required().messages({ "string.required": "City is required" }), 
   email: Joi.string().email().required().messages({ "string.required": "Email is required" }),
