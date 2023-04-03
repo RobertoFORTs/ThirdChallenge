@@ -1,6 +1,7 @@
 import express, { Request, Response , NextFunction } from "express";
 import dotenv from "dotenv";
 import { connect } from "mongoose";
+import { AppError } from "./errors/AppError";
 
 dotenv.config({path: "./config.env"});
 
@@ -16,6 +17,19 @@ connect(DB)
   .catch((err)=>{
     console.log("Could not connect to database!");
   });
+
+
+app.use((err : AppError | any, req: Request, res: Response, next: NextFunction) => {
+
+  if (err instanceof AppError){
+    return res.status(err.statusCode).json(err.message);
+  }
+
+  return res.status(500).json({
+    status: "error",
+    message: "Internal server error"
+  });
+});
 
 export { app };
 
