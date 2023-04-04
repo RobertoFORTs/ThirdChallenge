@@ -5,6 +5,8 @@ import { UserRepository } from "../repositories/userRepository/UserRepository";
 import axios from "axios";
 import { parseQualified } from "../utils/parseQualified";
 import { AppError } from "../errors/AppError";
+import { getValidCep } from "../utils/getValidCep";
+import { object } from "joi";
 
 interface RequestToRegisterUser{
   name: string,
@@ -31,25 +33,11 @@ export class UserService{
 
   async registerUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{
 
+    requestbody.qualified = parseQualified(requestbody.qualified as string);
+
     const cep = requestbody.cep;
-    const info = await axios.get(`https://viacep.com.br/ws/${cep}/json`);
-    
-    if (info.data.erro === true){
-      throw new AppError("Cep is invalid or does not exist!", 400);
-    }
-
-    const objInfo = { 
-      patio: info.data.logradouro, 
-      complement: info.data.complemento, 
-      neighborhood: info.data.bairro, 
-      locality: info.data.localidade, 
-      uf: info.data.uf };
-      console.log(objInfo);
-    
-
-    Object.assign(requestbody, objInfo );
-
-    requestbody.qualified = parseQualified(requestbody.qualified as string)
+    const newObj: object = await getValidCep(cep);
+    Object.assign(requestbody, newObj);
 
     const user = await this.repository.registerUserUp(requestbody as CreateUserDTO);
 
