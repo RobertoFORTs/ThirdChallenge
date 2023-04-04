@@ -1,6 +1,7 @@
 import express, { Request, Response , NextFunction } from "express";
 import dotenv from "dotenv";
 import "express-async-errors";
+import { ValidationError } from "joi";
 import { connect } from "mongoose";
 import { AppError } from "./errors/AppError";
 import { router } from "./routes";
@@ -23,12 +24,21 @@ connect(DB)
   });
 
 
-app.use((err : AppError | any, req: Request, res: Response, next: NextFunction) => {
+app.use((err : AppError | ValidationError | Error, req: Request, res: Response, next: NextFunction) => {
 
   if (err instanceof AppError){
     return res.status(err.statusCode).json(err.message);
   }
+  
+  if (err instanceof ValidationError){
 
+    if (err.message.includes("\"")) {
+      const newErrorMessage = err.message.split("\"");
+      err.message = `${newErrorMessage[1]}${newErrorMessage[2]}`;
+    }
+
+    return res.status(400).json({message: err.message});
+  }
   return res.status(500).json({
     status: "error",
     message: "Internal server error"
