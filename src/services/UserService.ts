@@ -4,12 +4,21 @@ import { IUser } from "../models/userModel/IUser";
 import { UserRepository } from "../repositories/userRepository/UserRepository";
 import axios from "axios";
 import { parseQualified } from "../utils/parseQualified";
+import { AppError } from "../errors/AppError";
 
 interface RequestToRegisterUser{
   name: string,
   birth: Date,
   email: string,
   password: string,
+  cep: string,
+  qualified: string | boolean
+}
+
+interface ResquestToUpdateUser{
+  id: string,
+  name: string,
+  birth: Date,
   cep: string,
   qualified: string | boolean
 }
@@ -23,8 +32,22 @@ export class UserService{
   async registerUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{
 
     const cep = requestbody.cep;
-    const dados = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-    Object.assign( requestbody, dados );
+    const info = await axios.get(`https://viacep.com.br/ws/${cep}/json`);
+    
+    if (info.data.erro === true){
+      throw new AppError("Cep is invalid or does not exist!", 400);
+    }
+
+    const objInfo = { 
+      patio: info.data.logradouro, 
+      complement: info.data.complemento, 
+      neighborhood: info.data.bairro, 
+      locality: info.data.localidade, 
+      uf: info.data.uf };
+      console.log(objInfo);
+    
+
+    Object.assign(requestbody, objInfo );
 
     requestbody.qualified = parseQualified(requestbody.qualified as string)
 
@@ -33,5 +56,14 @@ export class UserService{
     return user;
   }
 
-  async U
+  async updateUserService(requestbody: ResquestToUpdateUser): Promise<HydratedDocument<IUser> | null>{
+    
+    const cep = requestbody.cep;
+    const dados = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    
+    Object.assign( requestbody, dados );
+
+    requestbody.qualified = parseQualified(requestbody.qualified as string);
+    
+  }
 }
