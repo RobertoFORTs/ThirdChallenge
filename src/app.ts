@@ -19,7 +19,7 @@ connect(DB)
     console.log("Database connection succesfull!");
   })
   .catch((err)=>{
-    console.log("Could not connect to database!");
+    console.log("Could not connect to Database!");
   });
 
 

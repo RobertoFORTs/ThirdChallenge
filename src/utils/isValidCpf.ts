@@ -18,13 +18,13 @@ function validadeDigits(cpf: string){
     let num: number = +numbers[i];
     sum += num * (10-i);
   }
-  const rest = (sum * 10) % 11;
-  
-  if (rest === 10 || rest === 11){
-    sum = 0;
-  }
 
-  if (sum !== firstDigit){
+  let rest = (sum * 10) % 11;
+
+  if (rest === 10 || rest === 11){
+    rest = 0;
+  }
+  if (rest !== firstDigit){
     return false;
   }
 
@@ -35,7 +35,13 @@ function validadeDigits(cpf: string){
     sum += num * (11 - i);
   }
 
-  if (sum !== secondDigit){
+  rest = (sum * 10) % 11;
+
+  if (rest === 10 || rest === 11){
+    rest = 0;
+  }
+
+  if (rest !== secondDigit){
     return false;
   }
 
