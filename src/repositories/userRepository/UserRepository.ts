@@ -37,14 +37,12 @@ export class UserRepository implements IUserRepository{
 		
   }
 
-  async updateUser({id, name, cpf, birth, email, password, cep, qualified, patio, complement, neighborhood, locality, uf}: UpdateUserDTO): Promise<HydratedDocument<IUser> | null> {
+  async updateUser({id, name, cpf, birth, cep, qualified, patio, complement, neighborhood, locality, uf}: UpdateUserDTO): Promise<HydratedDocument<IUser> | null> {
     
     const updatedUser = await this.repository.findByIdAndUpdate(id, {
       name,
       cpf,
       birth,
-      email,
-      password,
       cep,
       qualified,
       patio,

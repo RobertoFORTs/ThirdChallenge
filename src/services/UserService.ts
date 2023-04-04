@@ -20,7 +20,7 @@ export class UserService{
     this.repository = repository;
   }
 
-  async RegisterUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{
+  async registerUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{
 
     const cep = requestbody.cep;
     const dados = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
@@ -32,4 +32,6 @@ export class UserService{
 
     return user;
   }
+
+  async U
 }

@@ -3,8 +3,6 @@ export interface UpdateUserDTO {
   name: string,
   cpf: string,
   birth: Date,
-  email: string,
-  password: string,
   cep: string,
   qualified: boolean,
   patio: string,

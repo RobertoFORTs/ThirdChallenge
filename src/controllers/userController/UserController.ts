@@ -10,7 +10,7 @@ const userService = new UserService(userRepository);
 export class UserController implements IUserController {
   async registerUser(req: Request, res: Response): Promise<Response> {
 
-    const newUser = await userService.RegisterUserService(req.body);
+    const newUser = await userService.registerUserService(req.body);
 
     return res.status(201).json({
       status: "success",
