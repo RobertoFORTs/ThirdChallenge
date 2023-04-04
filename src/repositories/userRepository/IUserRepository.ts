@@ -9,5 +9,5 @@ export interface IUserRepository{
   updateUser(user: UpdateUserDTO): Promise<HydratedDocument<IUser> | null>,
   deleteUser(id: string): void,
   getUsers(): Promise<HydratedDocument<IUser>>,
-  getUserById(): Promise<HydratedDocument<IUser> | null>
+  getUserById(id: string): Promise<HydratedDocument<IUser> | null>
 }

@@ -2,11 +2,9 @@ import { HydratedDocument } from "mongoose";
 import { CreateUserDTO } from "../dto/CreateUserDTO";
 import { IUser } from "../models/userModel/IUser";
 import { UserRepository } from "../repositories/userRepository/UserRepository";
-import axios from "axios";
 import { parseQualified } from "../utils/parseQualified";
 import { AppError } from "../errors/AppError";
 import { getValidCep } from "../utils/getValidCep";
-import { object } from "joi";
 import { UpdateUserDTO } from "../dto/UpdateUserDTO";
 
 interface RequestToRegisterUser{
@@ -30,6 +28,17 @@ export class UserService{
 
   constructor(public repository: UserRepository){
     this.repository = repository;
+  }
+
+  async getUserByIdService(id:string): Promise<HydratedDocument<IUser> | null>{
+
+    const user = await this.repository.getUserById(id);
+
+    if (!user){
+      throw new AppError("No matching user with id", 400);
+    }
+
+    return user;
   }
 
   async registerUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{

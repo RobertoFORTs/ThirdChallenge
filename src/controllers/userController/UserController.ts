@@ -8,6 +8,24 @@ const userRepository = new UserRepository(User);
 const userService = new UserService(userRepository);
 
 export class UserController implements IUserController {
+
+  async getUsers(req: Request, res: Response): Promise<Response> {
+    throw new Error("Method not implemented.");
+  }
+  
+  async getUserById(req: Request, res: Response): Promise<Response> {
+    
+    const id = req.params.id;
+    const user = await userService.getUserByIdService(id);
+
+    return res.status(200).json({
+      status: "success",
+      data: {
+        user
+      }
+    })
+  }
+
   async registerUser(req: Request, res: Response): Promise<Response> {
 
     const newUser = await userService.registerUserService(req.body);
@@ -21,12 +39,7 @@ export class UserController implements IUserController {
     });
 
   }
-  getUsers(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
-  }
-  getUserById(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
-  }
+
   async updateUser(req: Request, res: Response): Promise<Response> {
     const objId = {
       id: req.params.id
