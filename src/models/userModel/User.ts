@@ -1,7 +1,6 @@
 import { IUser } from "./IUser";
 import { Schema, model } from "mongoose"
 import bcrypt from "bcrypt";
-import { number } from "joi";
 
 const userSchema = new Schema<IUser>({
   name: {

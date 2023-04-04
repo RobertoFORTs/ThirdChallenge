@@ -5,7 +5,7 @@ export interface IUser{
   email: string,
   password: string,
   cep: number,
-  qualified: string,
+  qualified: boolean,
   patio: string,
   complement: string,
   neighborhood: string,
