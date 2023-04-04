@@ -39,9 +39,12 @@ app.use((err : AppError | ValidationError | Error, req: Request, res: Response, 
 
     return res.status(400).json({message: err.message});
   }
+  if (err.message.startsWith("E11000")){
+    err.message = "Email or CPF already in use";
+  }
   return res.status(500).json({
     status: "error",
-    message: "Internal server error"
+    message: err.message
   });
 });
 
