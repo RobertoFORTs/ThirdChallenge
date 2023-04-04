@@ -10,7 +10,7 @@ interface RequestToRegisterUser{
   email: string,
   password: string,
   cep: number,
-  qualified: boolean,
+  qualified: string,
 }
 
 export class UserService{

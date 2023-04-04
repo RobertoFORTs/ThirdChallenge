@@ -3,6 +3,7 @@ import Joi from "joi";
 import { isValidCpf } from "../../utils/isValidCpf";
 import { AppError } from "../../errors/AppError";
 import { isValidCep } from "../../utils/isValidCep";
+import { isQualifiedValid } from "../../utils/isQualifiedValid";
 
 const requestValidation = Joi.object({
   name: Joi.string().required().messages({ "string.required": "Name is required" }),
@@ -25,6 +26,9 @@ async function registerUserValidator(req: Request, res: Response, next: NextFunc
   }
   if (!isValidCep(req.body.cep)){
     throw new AppError("Cep is invalid", 400);
+  }
+  if (!isQualifiedValid(req.body.qualified)){
+    throw new AppError("Qualified should be field with 'sim' or 'não'.", 400);
   }
   await requestValidation.validateAsync(req.body);
 
