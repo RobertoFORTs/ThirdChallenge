@@ -7,6 +7,7 @@ import { parseQualified } from "../utils/parseQualified";
 import { AppError } from "../errors/AppError";
 import { getValidCep } from "../utils/getValidCep";
 import { object } from "joi";
+import { UpdateUserDTO } from "../dto/UpdateUserDTO";
 
 interface RequestToRegisterUser{
   name: string,
@@ -45,12 +46,16 @@ export class UserService{
 
   async updateUserService(requestbody: ResquestToUpdateUser): Promise<HydratedDocument<IUser> | null>{
     
-    const cep = requestbody.cep;
-    const dados = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-    
-    Object.assign( requestbody, dados );
-
     requestbody.qualified = parseQualified(requestbody.qualified as string);
-    
+
+    const cep = requestbody.cep;
+    Object.assign( requestbody, await getValidCep );
+
+    const updatedUser = await this.repository.updateUser(requestbody as UpdateUserDTO);
+    if (!updatedUser){
+      throw new AppError("User has not been found", 400);
+    }
+
+    return updatedUser;
   }
 }
