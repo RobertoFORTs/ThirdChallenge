@@ -23,7 +23,7 @@ export class UserService{
   async RegisterUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{
 
     const cep = requestbody.cep;
-    const dados = await axios.post(`https://viacep.com.br/ws/${cep}/json/`);
+    const dados = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
     Object.assign( requestbody, dados );
 
     requestbody.qualified = parseQualified(requestbody.qualified as string)
