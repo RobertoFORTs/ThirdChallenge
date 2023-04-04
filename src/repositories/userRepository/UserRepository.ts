@@ -1,4 +1,4 @@
-import { Document, Types, Schema, Model, HydratedDocument } from "mongoose";
+import { Schema, Model, HydratedDocument } from "mongoose";
 import { CreateUserDTO } from "../../dto/CreateUserDTO";
 import { IUser } from "../../models/userModel/IUser";
 import { IUserRepository } from "./IUserRepository";
@@ -27,6 +27,15 @@ export class UserRepository implements IUserRepository{
 
     return user;
   }
+
+  async getUserByEmail(email: string): Promise<HydratedDocument<IUser> | null>{
+    
+    const user: HydratedDocument<IUser> | null = await this.repository.findOne({ email }).select("+password");
+		
+		return user;
+		
+  }
+
   async updateUser(user: CreateUserDTO): Promise<HydratedDocument<IUser>> {
     throw new Error("Method not implemented.");
   }
