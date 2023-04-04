@@ -1,6 +1,7 @@
 import { IUser } from "./IUser";
 import { Schema, model } from "mongoose"
 import bcrypt from "bcrypt";
+import { number } from "joi";
 
 const userSchema = new Schema<IUser>({
   name: {
@@ -22,7 +23,7 @@ const userSchema = new Schema<IUser>({
     select: false
   },
   cep: {
-    type: String
+    type: Number
   },
   qualified: {
     type: Boolean
