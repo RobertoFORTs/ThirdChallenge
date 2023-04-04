@@ -28,7 +28,10 @@ export class UserController implements IUserController {
     throw new Error("Method not implemented.");
   }
   async updateUser(req: Request, res: Response): Promise<Response> {
-    
+    const objId = {
+      id: req.params.id
+    };
+    Object.assign(req.body, objId);
     const updatedUser = await userService.updateUserService(req.body);
 
     return res.status(200).json({

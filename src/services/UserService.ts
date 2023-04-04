@@ -49,7 +49,7 @@ export class UserService{
     requestbody.qualified = parseQualified(requestbody.qualified as string);
 
     const cep = requestbody.cep;
-    Object.assign( requestbody, await getValidCep );
+    Object.assign( requestbody, await getValidCep(cep) );
 
     const updatedUser = await this.repository.updateUser(requestbody as UpdateUserDTO);
     if (!updatedUser){

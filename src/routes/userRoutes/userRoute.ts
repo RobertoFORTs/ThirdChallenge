@@ -6,6 +6,7 @@ import { registerUserValidator } from "../../validators/userValidators/registerU
 const userRouter = express.Router();
 const userController = new UserController();
 
-userRouter.post('/register', registerUserValidator, userController.registerUser);
+userRouter.post("/register", registerUserValidator, userController.registerUser);
+userRouter.put("/update/:id", userController.updateUser);
 
 export {userRouter};
