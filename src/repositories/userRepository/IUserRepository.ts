@@ -1,4 +1,4 @@
-import { HydratedDocument, ObjectId } from "mongoose";
+import { HydratedDocument } from "mongoose";
 import { CreateUserDTO } from "../../dto/CreateUserDTO";
 import { IUser } from "../../models/userModel/IUser";
 import { UpdateUserDTO } from "../../dto/UpdateUserDTO";

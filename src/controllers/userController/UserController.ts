@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { UserRepository } from "../../repositories/userRepository/UserRepository";
 import { UserService } from "../../services/UserService";
 import { IUserController } from "./IUserController";
-import { StringSchemaDefinition } from "mongoose";
+
 
 const userRepository = new UserRepository(User);
 const userService = new UserService(userRepository);
