@@ -9,7 +9,7 @@ interface Request {
   password: string
 }
 
-export class AuthService {
+export class SessionService {
 
   constructor(private repository: UserRepository){
     this.repository = repository;
