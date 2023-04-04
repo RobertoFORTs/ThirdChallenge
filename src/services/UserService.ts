@@ -30,6 +30,18 @@ export class UserService{
     this.repository = repository;
   }
 
+  async getUsersService(): Promise<object[] | string>{
+
+    const objResponse = await this.repository.getUsers();
+
+    if (objResponse.length === 0){
+      const message = "There are no users";
+      return message;
+    }
+
+    return objResponse;
+  }
+
   async getUserByIdService(id:string): Promise<HydratedDocument<IUser> | null>{
 
     const user = await this.repository.getUserById(id);

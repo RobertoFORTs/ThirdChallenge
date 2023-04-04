@@ -10,8 +10,11 @@ export class UserRepository implements IUserRepository{
     this.repository = repository;
   }
 
-  async getUsers(): Promise<HydratedDocument<IUser>> {
-    throw new Error("Method not implemented.");
+  async getUsers(): Promise<object[]> {
+    
+    const objResponse = await this.repository.find();
+
+    return objResponse;
   }
 
   async getUserById(id: string): Promise<HydratedDocument<IUser> | null>{

@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { UserRepository } from "../../repositories/userRepository/UserRepository";
 import { UserService } from "../../services/UserService";
 import { IUserController } from "./IUserController";
+import { StringSchemaDefinition } from "mongoose";
 
 const userRepository = new UserRepository(User);
 const userService = new UserService(userRepository);
@@ -10,7 +11,15 @@ const userService = new UserService(userRepository);
 export class UserController implements IUserController {
 
   async getUsers(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+    
+    const objResponse: object[] | string = await userService.getUsersService();
+
+    return res.status(200).json({
+      status: "success",
+      data: {
+        objResponse
+      }
+    });
   }
   
   async getUserById(req: Request, res: Response): Promise<Response> {

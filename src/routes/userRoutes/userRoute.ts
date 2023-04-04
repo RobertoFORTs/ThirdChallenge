@@ -8,6 +8,7 @@ import { updateUserValidator } from "../../validators/userValidators/updateUserV
 const userRouter = express.Router();
 const userController = new UserController();
 
+userRouter.get("/", userController.getUsers);
 userRouter.get("/:id", idValidator, userController.getUserById);
 userRouter.post("/register", registerUserValidator, userController.registerUser);
 userRouter.put("/update/:id", idValidator, updateUserValidator, userController.updateUser);
