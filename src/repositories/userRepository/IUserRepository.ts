@@ -7,5 +7,7 @@ export interface IUserRepository{
   registerUserUp(user: CreateUserDTO): Promise<HydratedDocument<IUser>>,  
   getUserByEmail(email: string): Promise<HydratedDocument<IUser> | null>,
   updateUser(user: UpdateUserDTO): Promise<HydratedDocument<IUser> | null>,
-  deleteUser(id: ObjectId): void
+  deleteUser(id: string): void,
+  getUsers(): Promise<HydratedDocument<IUser>>,
+  getUserById(): Promise<HydratedDocument<IUser> | null>
 }

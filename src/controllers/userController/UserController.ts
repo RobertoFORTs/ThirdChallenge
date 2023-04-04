@@ -42,8 +42,16 @@ export class UserController implements IUserController {
       }
     });
   }
-  deleteUser(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async deleteUser(req: Request, res: Response): Promise<Response> {
+    
+    const id = req.params.id;
+
+    await userService.deleteByIdService(id);
+
+    return res.status(204).json({
+      status: "success",
+      message: "User deleted"
+    });
   }
 
 }

@@ -58,4 +58,11 @@ export class UserService{
 
     return updatedUser;
   }
+
+  async deleteByIdService(id: string): Promise<void>{
+    
+    await this.repository.deleteUser(id);
+
+    return;
+  }
 }

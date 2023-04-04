@@ -20,6 +20,9 @@ const requestValidation = Joi.object({
 });
 
 async function registerUserValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
+
+  await requestValidation.validateAsync(req.body);
+
   if (!isValidCpf(req.body.cpf)){
     throw new AppError("Cpf is invalid", 400);
   }
@@ -29,7 +32,6 @@ async function registerUserValidator(req: Request, res: Response, next: NextFunc
   if (!isQualifiedValid(req.body.qualified)){
     throw new AppError("Qualified should be field with 'sim' or 'não'.", 400);
   }
-  await requestValidation.validateAsync(req.body);
 
   return next();
 }

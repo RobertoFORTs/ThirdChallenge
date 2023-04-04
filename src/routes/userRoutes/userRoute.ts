@@ -10,5 +10,6 @@ const userController = new UserController();
 
 userRouter.post("/register", registerUserValidator, userController.registerUser);
 userRouter.put("/update/:id", idValidator, updateUserValidator, userController.updateUser);
+userRouter.delete("/delete/:id", idValidator, userController.deleteUser);
 
 export {userRouter};
