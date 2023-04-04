@@ -1,13 +1,17 @@
 import express, { Request, Response , NextFunction } from "express";
 import dotenv from "dotenv";
+import "express-async-errors";
 import { connect } from "mongoose";
 import { AppError } from "./errors/AppError";
+import { router } from "./routes";
 
 dotenv.config({path: "./config.env"});
 
 const app = express();
 
 app.use(express.json());
+
+app.use(router);
 
 const DB = process.env.DATABASE!.replace("<PASSWORD>", process.env.DATABASE_PASSWORD!);
 connect(DB)
