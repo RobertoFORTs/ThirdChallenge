@@ -1,5 +1,5 @@
-export function isValidCep(cep: number){
-  const cepS = cep.toString().split("");
+export function isValidCep(cep: string){
+  const cepS = cep.split("");
   if (cepS.length !== 8){
     return false;
   }

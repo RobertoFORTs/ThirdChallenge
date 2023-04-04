@@ -22,7 +22,7 @@ const userSchema = new Schema<IUser>({
     select: false
   },
   cep: {
-    type: Number
+    type: String
   },
   qualified: {
     type: Boolean

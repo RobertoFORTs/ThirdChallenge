@@ -8,15 +8,14 @@ import { isQualifiedValid } from "../../utils/isQualifiedValid";
 const requestValidation = Joi.object({
   name: Joi.string().required().messages({ "string.required": "Name is required" }),
   cpf: Joi.string().required().messages({ "string.required": "CPF is required" }),
-  birth: Joi.date().required().messages({ "date.base": "Date time must be a valid date" }), 
-  city: Joi.string().required().messages({ "string.required": "City is required" }), 
+  birth: Joi.date().required().messages({ "date.base": "Date time must be a valid date" }),  
   email: Joi.string().email().required().messages({ "string.required": "Email is required" }),
   password: Joi.string().min(6).empty().required().messages({
     "string.min": "password should be min 6 characters",
     "string.empty": "password cannot be an empty field", 
     "string.required": "password is required" 
   }),
-  cep: Joi.number().required().messages({ "number.required": "cep is required" }),
+  cep: Joi.string().required().messages({ "string.required": "cep is required" }),
   qualified: Joi.string().required().messages({ "string.required": "Qualified is a required field" }),
 });
 

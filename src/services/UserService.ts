@@ -10,7 +10,7 @@ interface RequestToRegisterUser{
   birth: Date,
   email: string,
   password: string,
-  cep: number,
+  cep: string,
   qualified: string | boolean
 }
 
@@ -23,10 +23,10 @@ export class UserService{
   async RegisterUserService(requestbody: RequestToRegisterUser): Promise<HydratedDocument<IUser>>{
 
     const cep = requestbody.cep;
-    const dados = await axios.post(`https://viacep.com.br/ws/${cep}/json`);
+    const dados = await axios.post(`https://viacep.com.br/ws/${cep}/json/`);
     Object.assign( requestbody, dados );
 
-    requestbody.qualified = parseQualified(requestbody.qualified as string);
+    requestbody.qualified = parseQualified(requestbody.qualified as string)
 
     const user = await this.repository.registerUserUp(requestbody as CreateUserDTO);
 

@@ -4,7 +4,7 @@ export interface IUser{
   birth: Date,
   email: string,
   password: string,
-  cep: number,
+  cep: string,
   qualified: boolean,
   patio: string,
   complement: string,
