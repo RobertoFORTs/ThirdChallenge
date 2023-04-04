@@ -27,8 +27,17 @@ export class UserController implements IUserController {
   getUserById(req: Request, res: Response): Promise<Response> {
     throw new Error("Method not implemented.");
   }
-  updateUser(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async updateUser(req: Request, res: Response): Promise<Response> {
+    
+    const updatedUser = await userService.updateUserService(req.body);
+
+    return res.status(200).json({
+      status: "success",
+      message: "User has been updated",
+      data: {
+        updatedUser
+      }
+    });
   }
   deleteUser(req: Request, res: Response): Promise<Response> {
     throw new Error("Method not implemented.");
