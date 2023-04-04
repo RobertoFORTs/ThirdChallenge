@@ -30,7 +30,7 @@ async function registerUserValidator(req: Request, res: Response, next: NextFunc
     throw new AppError("Cep is invalid", 400);
   }
   if (!isQualifiedValid(req.body.qualified)){
-    throw new AppError("Qualified should be field with 'sim' or 'não'.", 400);
+    throw new AppError("Qualified should be field with 'yes' or 'no'.", 400);
   }
 
   return next();
