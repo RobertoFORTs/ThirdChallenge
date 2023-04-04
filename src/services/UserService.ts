@@ -36,8 +36,7 @@ export class UserService{
     requestbody.qualified = parseQualified(requestbody.qualified as string);
 
     const cep = requestbody.cep;
-    const newObj: object = await getValidCep(cep);
-    Object.assign(requestbody, newObj);
+    Object.assign(requestbody, await getValidCep(cep));
 
     const user = await this.repository.registerUserUp(requestbody as CreateUserDTO);
 
