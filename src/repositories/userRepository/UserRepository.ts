@@ -2,6 +2,7 @@ import { Schema, Model, HydratedDocument } from "mongoose";
 import { CreateUserDTO } from "../../dto/CreateUserDTO";
 import { IUser } from "../../models/userModel/IUser";
 import { IUserRepository } from "./IUserRepository";
+import { UpdateUserDTO } from "../../dto/UpdateUserDTO";
 
 export class UserRepository implements IUserRepository{
 
@@ -36,8 +37,24 @@ export class UserRepository implements IUserRepository{
 		
   }
 
-  async updateUser(user: CreateUserDTO): Promise<HydratedDocument<IUser>> {
-    throw new Error("Method not implemented.");
+  async updateUser({id, name, cpf, birth, email, password, cep, qualified, patio, complement, neighborhood, locality, uf}: UpdateUserDTO): Promise<HydratedDocument<IUser> | null> {
+    
+    const updatedUser = await this.repository.findByIdAndUpdate(id, {
+      name,
+      cpf,
+      birth,
+      email,
+      password,
+      cep,
+      qualified,
+      patio,
+      complement,
+      neighborhood,
+      locality,
+      uf
+    });
+
+    return updatedUser;
   }
   async deleteUser(id: Schema.Types.ObjectId): Promise<void> {
     throw new Error("Method not implemented.");
