@@ -22,11 +22,7 @@ export class SessionService {
   }
 
   async executeLogin({email, password} : Request): Promise<object> {
-
-    if (!email || !password){
-      throw new AppError("Please provide email and password", 400);
-    }
-
+    
     const currentUser = await this.repository.getUserByEmail(email);
 
     if (!currentUser || !(await bcrypt.compare(password, currentUser.password))){
