@@ -26,18 +26,9 @@ export class SessionController implements ISessionController{
   }
 
   static async authGrantAccess (req: Request, res: Response, next: NextFunction): Promise<void>{
-    let token: string;
-  
-    if (req.headers.authorization) {
-      token = req.headers.authorization.split(" ")[1];
-    } 
-    else{
-      throw new AppError("Please log in to gain access", 401);
-    }
-  
-    const validateToken: any = await promisify(jwt.verify)(token, process.env.JWT_SECRET!);
     
-    const current = await sessionService.executeGrantAccess(validateToken.id);
+    const {authorization}= req.headers;
+    const current = await sessionService.executeGrantAccess(authorization);
     
     res.locals.user = current;
     return next();

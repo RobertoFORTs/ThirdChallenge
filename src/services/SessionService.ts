@@ -5,6 +5,7 @@ import { HydratedDocument, ObjectId } from "mongoose";
 import { UserRepository } from "../repositories/userRepository/UserRepository";
 import { AppError } from "../errors/AppError";
 import { IUser } from "../models/userModel/IUser";
+import { promisify } from "util";
 
 interface Request {
   email: string,
@@ -42,9 +43,18 @@ export class SessionService {
     return loginData;
   }
 
-  async executeGrantAccess(id: string): Promise<HydratedDocument<IUser>> {
-
-    const currentUser = await this.repository.getUserById(id);
+  async executeGrantAccess(authorization: string | undefined, ): Promise<HydratedDocument<IUser>> {
+    let token: string;
+  
+    if (authorization) {
+      token = authorization.split(" ")[1];
+    } 
+    else{
+      throw new AppError("Please log in to gain access", 401);
+    }
+  
+    const validateToken: any = await promisify(jwt.verify)(token, process.env.JWT_SECRET!);
+    const currentUser = await this.repository.getUserById(validateToken.id);
 
     if (!currentUser){
       throw new AppError("User does not exist", 404);
