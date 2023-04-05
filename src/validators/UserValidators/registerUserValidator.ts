@@ -20,7 +20,7 @@ const requestValidation = Joi.object({
 });
 
 async function registerUserValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
-
+  req.body.cpf = req.body.cpf.replace(/\.|-/g, "");
   await requestValidation.validateAsync(req.body);
 
   if (!isValidCpf(req.body.cpf)){
