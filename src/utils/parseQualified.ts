@@ -1,5 +1,5 @@
 export function parseQualified( qualified: string ){
-  if (qualified.toLowerCase() === "sim"){
+  if (qualified.toLowerCase() === "yes"){
     return true;
   }
   return false;
