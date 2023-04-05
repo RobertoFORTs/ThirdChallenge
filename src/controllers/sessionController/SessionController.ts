@@ -32,7 +32,7 @@ export class SessionController implements ISessionController{
       token = req.headers.authorization.split(" ")[1];
     } 
     else{
-      return next( new AppError("Please log in to gain access", 401));
+      throw new AppError("Please log in to gain access", 401);
     }
   
     const validateToken: any = await promisify(jwt.verify)(token, process.env.JWT_SECRET!);
