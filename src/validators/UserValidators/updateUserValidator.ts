@@ -15,6 +15,7 @@ const requestValidation = Joi.object({
 });
 
 async function updateUserValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
+  req.body.cep = req.body.cep.replace(/[-]/g,"");
   req.body.cpf = req.body.cpf.replace(/\.|-/g, "");
   await requestValidation.validateAsync(req.body);
 

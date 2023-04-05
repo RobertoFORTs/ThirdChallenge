@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable prefer-const */
 function validadeDigits(cpf: string){
-  
-  cpf = cpf.replace(/\.|-/g, "");
 
   let numbers = cpf.split("");
 
