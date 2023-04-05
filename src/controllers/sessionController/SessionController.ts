@@ -36,7 +36,6 @@ export class SessionController implements ISessionController{
     }
   
     const validateToken: any = await promisify(jwt.verify)(token, process.env.JWT_SECRET!);
-    console.log(validateToken);
     
     const current = await sessionService.executeGrantAccess(validateToken.id);
     
