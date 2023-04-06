@@ -2,6 +2,7 @@ import { HydratedDocument, Model } from "mongoose";
 import { ICar } from "../../models/carModel/ICar";
 import { ICarRepository } from "./ICarRepository";
 import { ICreateCarDTO } from "../../dto/CreateCarDTO";
+import { IUpdateCarDTO } from "../../dto/UpdateCarDTO";
 
 export class CarRepository implements ICarRepository{
 
@@ -35,11 +36,25 @@ export class CarRepository implements ICarRepository{
     
     return car;
   }
-  updateCar(): Promise<HydratedDocument<ICar>>{
-    throw new Error("Method not implemented.");
+
+  async updateCar({ id, model, color, year, value_per_day, accessories, number_of_passengers }: IUpdateCarDTO ): Promise<HydratedDocument<ICar> | null>{
+    
+    const updatedCar = await this.repository.findByIdAndUpdate(id, {
+      model,
+      color,
+      year,
+      value_per_day,
+      accessories,
+      number_of_passengers
+    }, {new: true});
+  
+    return updatedCar;
+
   }
-  updateAccessory(): Promise<HydratedDocument<ICar>>{
-    throw new Error("Method not implemented.");
+
+  async updateAccessory(): Promise<HydratedDocument<ICar>> {
+  
+    return;
   }
   async deleteCar(id: string): Promise<number> {
     

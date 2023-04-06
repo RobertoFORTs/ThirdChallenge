@@ -3,6 +3,7 @@ import { ICarRepository } from "../repositories/carRepository/ICarRepository";
 import { ICar } from "../models/carModel/ICar";
 import { QueryFeatures } from "../utils/QueryFeatures";
 import { AppError } from "../errors/AppError";
+import { IUpdateCarDTO } from "../dto/UpdateCarDTO";
 
 interface IRequestToRegister{
   model: string,
@@ -57,7 +58,18 @@ export class CarService {
     return car;
   }
 
-  async executeDeleteCarByID(id: string): Promise<void>{
+  async executeUpdateCar(body: object): Promise<HydratedDocument<ICar>>{
+
+    const car = await this.repository.updateCar(body as IUpdateCarDTO);
+
+    if (!car){
+      throw new AppError("Car not found", 404);
+    }
+
+    return car;
+  }
+
+  async executeDeleteCar(id: string): Promise<void>{
 
     const deleteCount: number = await this.repository.deleteCar(id);
 

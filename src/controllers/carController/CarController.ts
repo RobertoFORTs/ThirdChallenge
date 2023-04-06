@@ -34,7 +34,7 @@ export class CarController implements ICarController{
 
     return res.status(200).json({
       status: "success",
-      message: "User found",
+      message: "Car found",
       data: {
         user
       }
@@ -55,9 +55,22 @@ export class CarController implements ICarController{
 
   }
 
-  updateCar(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async updateCar(req: Request, res: Response): Promise<Response> {
+    const objId = {
+      id: req.params.id
+    };
+    Object.assign(req.body, objId);
+    const updatedCar = await carService.executeUpdateCar(req.body);
+
+    return res.status(200).json({
+      status: "success",
+      message: "Car has been updated",
+      data: {
+        updatedCar
+      }
+    });
   }
+
   updateAccessory(req: Request, res: Response): Promise<Response> {
     throw new Error("Method not implemented.");
   }
@@ -65,7 +78,7 @@ export class CarController implements ICarController{
     
     const id = req.params.id;
 
-    await carService.executeDeleteCarByID(id);
+    await carService.executeDeleteCar(id);
 
     return res.status(204).send();
   }
