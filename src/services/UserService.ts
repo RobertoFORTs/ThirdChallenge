@@ -90,7 +90,11 @@ export class UserService{
 
   async deleteByIdService(id: string): Promise<void>{
     
-    await this.repository.deleteUser(id);
+    const deletedcount = await this.repository.deleteUser(id);
+
+    if (!deletedcount){
+      throw new AppError("User not found", 404);
+    }
 
     return;
   }

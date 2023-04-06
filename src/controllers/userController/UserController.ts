@@ -76,10 +76,7 @@ export class UserController implements IUserController {
 
     await userService.deleteByIdService(id);
 
-    return res.status(204).json({
-      status: "success",
-      message: "User deleted"
-    });
+    return res.status(204).send();
   }
 
 }

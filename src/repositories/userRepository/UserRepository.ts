@@ -73,10 +73,10 @@ export class UserRepository implements IUserRepository{
 
     return updatedUser;
   }
-  async deleteUser(id: string): Promise<void> {
+  async deleteUser(id: string): Promise<number> {
     
-    await this.repository.findByIdAndDelete(id);
+    const {deletedCount} = await this.repository.deleteOne({_id: id});
 
-    return;
+    return deletedCount;
   }
 }
