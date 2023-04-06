@@ -15,7 +15,7 @@ const requestValidation = Joi.object({
     "array.required": "Accesories is a required field",
     "object.required": "Accesories must have at least one item",
     "string.required": "Description is required"
-  }),
+  }), 
   number_of_passengers: Joi.number().required().messages({"number.required": "Value is required and must be a number"})
 });
 

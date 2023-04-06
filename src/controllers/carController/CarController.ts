@@ -8,8 +8,23 @@ const carRepository = new CarRepository(Car);
 const carService = new CarService(carRepository);
 
 export class CarController implements ICarController{
-  getCars(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async getCars(req: Request, res: Response): Promise<Response> {
+    
+    const queryObj = req.query;
+    const pagination = {
+      page: req.query.page,
+      limit: req.query.limit
+    };
+  
+    const objResponse: object[] | string = await carService.executeGetCars(queryObj, pagination);
+
+    return res.status(200).json({
+      status: "success",
+      data: {
+        objResponse
+      }
+    });
+
   }
   getCarById(req: Request, res: Response): Promise<Response> {
     throw new Error("Method not implemented.");

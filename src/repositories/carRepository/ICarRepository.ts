@@ -3,7 +3,7 @@ import { ICar } from "../../models/carModel/ICar"
 import { ICreateCarDTO } from "../../dto/CreateCarDTO"
 
 export interface ICarRepository {
-  getCars() : Promise<HydratedDocument<ICar>>,
+  getCars(queryObj: object, pagesConfig: number[]) : Promise<object[]>,
   getCarById() : Promise<HydratedDocument<ICar>>,
   registerCar(body: ICreateCarDTO) : Promise<HydratedDocument<ICar>>,
   updateCar() : Promise<HydratedDocument<ICar>>,

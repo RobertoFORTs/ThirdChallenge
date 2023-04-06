@@ -9,8 +9,11 @@ export class CarRepository implements ICarRepository{
     this.repository = repository;
   }
 
-  getCars(): Promise<HydratedDocument<ICar>>{
-    throw new Error("Method not implemented.");
+  async getCars(queryObj: object, pageConfig: number[]): Promise<object[]>{
+    
+    const objResponse = await this.repository.find(queryObj).skip(pageConfig[0]).limit(pageConfig[1]);
+
+    return objResponse;
   }
   getCarById(): Promise<HydratedDocument<ICar>>{
     throw new Error("Method not implemented.");
