@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { ICar } from "./ICar";
-import { string } from "joi";
+
 
 const carSchema = new Schema<ICar>({
   model: {
