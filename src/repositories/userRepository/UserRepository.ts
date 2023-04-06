@@ -3,7 +3,7 @@ import { CreateUserDTO } from "../../dto/CreateUserDTO";
 import { IUser } from "../../models/userModel/IUser";
 import { IUserRepository } from "./IUserRepository";
 import { UpdateUserDTO } from "../../dto/UpdateUserDTO";
-import { QueryFeatures } from "../../utils/QueryFeatures";
+
 
 export class UserRepository implements IUserRepository{
 
