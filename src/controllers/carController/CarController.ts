@@ -54,9 +54,6 @@ export class CarController implements ICarController{
     });
 
   }
-    
-    
-    
 
   updateCar(req: Request, res: Response): Promise<Response> {
     throw new Error("Method not implemented.");
