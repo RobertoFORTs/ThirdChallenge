@@ -19,7 +19,7 @@ const requestValidation = Joi.object({
   number_of_passengers: Joi.number().required().messages({"number.required": "Value is required and must be a number"})
 });
 
-async function resgisterCarValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
+async function carInfoValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
 
   await requestValidation.validateAsync(req.body);
 
@@ -29,4 +29,4 @@ async function resgisterCarValidator(req: Request, res: Response, next: NextFunc
   return next();
 }
 
-export { resgisterCarValidator };
+export { carInfoValidator };
