@@ -39,7 +39,8 @@ export class UserService{
       const queryString = QueryFeatures.filter(queryObj);
       finalObject = JSON.parse(queryString);
     }
-    const objResponse = await this.repository.getUsers(finalObject, pagination);
+    const pageConfig = QueryFeatures.paginate(pagination);
+    const objResponse = await this.repository.getUsers(finalObject, pageConfig);
 
     if (objResponse.length === 0){
       const message = "There are no users";

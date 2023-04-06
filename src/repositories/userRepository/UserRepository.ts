@@ -11,9 +11,9 @@ export class UserRepository implements IUserRepository{
     this.repository = repository;
   }
 
-  async getUsers(queryObj: object, pagination: object): Promise<object[]> {
-    const pageConfig = QueryFeatures.paginate(pagination);
-    const objResponse = await this.repository.find(queryObj).skip(pageConfig[0]).limit(pageConfig[1]);
+  async getUsers(queryObj: object, pagConfig: number[]): Promise<object[]> {
+    
+    const objResponse = await this.repository.find(queryObj).skip(pagConfig[0]).limit(pagConfig[1]);
 
     return objResponse;
   }
