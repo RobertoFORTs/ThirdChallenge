@@ -10,7 +10,7 @@ const carSchema = new Schema<ICar>({
     type: String
   },
   year: {
-    type: String
+    type: Date
   },
   value_per_day: {
     type: Number
