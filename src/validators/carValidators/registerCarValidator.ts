@@ -5,6 +5,7 @@ import { isCarAccessoryValid } from "../../utils/isCarAccessoryValid";
 
 
 
+
 const requestValidation = Joi.object({
   model: Joi.string().required().messages({ "string.required": "Model is required" }),
   color: Joi.string().required().messages({ "string.required": "Color is required" }),
