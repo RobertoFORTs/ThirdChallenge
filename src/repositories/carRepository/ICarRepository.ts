@@ -4,7 +4,7 @@ import { ICreateCarDTO } from "../../dto/CreateCarDTO"
 
 export interface ICarRepository {
   getCars(queryObj: object, pagesConfig: number[]) : Promise<object[]>,
-  getCarById() : Promise<HydratedDocument<ICar>>,
+  getCarById(id: string) : Promise<HydratedDocument<ICar> | null>,
   registerCar(body: ICreateCarDTO) : Promise<HydratedDocument<ICar>>,
   updateCar() : Promise<HydratedDocument<ICar>>,
   updateAccessory() : Promise<HydratedDocument<ICar>>,

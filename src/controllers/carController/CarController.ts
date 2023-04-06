@@ -26,8 +26,19 @@ export class CarController implements ICarController{
     });
 
   }
-  getCarById(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async getCarById(req: Request, res: Response): Promise<Response> {
+    
+    const id = req.params.id;
+
+    const user = await carService.executeGetCarById(id);
+
+    return res.status(200).json({
+      status: "success",
+      message: "User found",
+      data: {
+        user
+      }
+    });
   }
   
   async registerCar(req: Request, res: Response): Promise<Response> {

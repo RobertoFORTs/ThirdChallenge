@@ -2,6 +2,7 @@ import { HydratedDocument } from "mongoose";
 import { ICarRepository } from "../repositories/carRepository/ICarRepository";
 import { ICar } from "../models/carModel/ICar";
 import { QueryFeatures } from "../utils/QueryFeatures";
+import { AppError } from "../errors/AppError";
 
 interface IRequestToRegister{
   model: string,
@@ -37,6 +38,17 @@ export class CarService {
     return objResponse;
   }
 
+  async executeGetCarById(id: string): Promise<HydratedDocument<ICar>>{
+
+    const car = await this.repository.getCarById(id);
+
+    if (!car){
+      throw new AppError("Car not found", 404);
+    }
+
+    return car;
+
+  }
 
   async executeRegister(body: IRequestToRegister): Promise<HydratedDocument<ICar>> {
 

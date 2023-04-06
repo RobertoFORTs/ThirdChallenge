@@ -55,7 +55,7 @@ export class UserService{
     const user = await this.repository.getUserById(id);
 
     if (!user){
-      throw new AppError("No matching user with id", 400);
+      throw new AppError("User not found", 404);
     }
 
     return user;

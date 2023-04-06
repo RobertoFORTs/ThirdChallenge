@@ -15,8 +15,12 @@ export class CarRepository implements ICarRepository{
 
     return objResponse;
   }
-  getCarById(): Promise<HydratedDocument<ICar>>{
-    throw new Error("Method not implemented.");
+  async getCarById(id: string): Promise<HydratedDocument<ICar> | null>{
+    
+    const car = await this.repository.findById(id);
+
+    return car;
+    
   }
   async registerCar({ model, color, year, value_per_day, accessories, number_of_passengers }: ICreateCarDTO): Promise<HydratedDocument<ICar>>{
     
