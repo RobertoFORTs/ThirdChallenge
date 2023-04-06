@@ -20,7 +20,7 @@ export class CarRepository implements ICarRepository{
     const car = await this.repository.findById(id);
 
     return car;
-    
+
   }
   async registerCar({ model, color, year, value_per_day, accessories, number_of_passengers }: ICreateCarDTO): Promise<HydratedDocument<ICar>>{
     
@@ -41,8 +41,11 @@ export class CarRepository implements ICarRepository{
   updateAccessory(): Promise<HydratedDocument<ICar>>{
     throw new Error("Method not implemented.");
   }
-  deleteCar(): Promise<void> {
-    throw new Error("Method not implemented.");
+  async deleteCar(id: string): Promise<number> {
+    
+    const { deletedCount } = await this.repository.deleteOne({ _id: id });
+
+    return deletedCount;
   }
 
 }

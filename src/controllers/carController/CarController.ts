@@ -64,8 +64,13 @@ export class CarController implements ICarController{
   updateAccessory(req: Request, res: Response): Promise<Response> {
     throw new Error("Method not implemented.");
   }
-  deleteCar(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async deleteCar(req: Request, res: Response): Promise<Response> {
+    
+    const id = req.params.id;
+
+    await carService.executeDeleteCarByID(id);
+
+    return res.status(204).send();
   }
 
 }

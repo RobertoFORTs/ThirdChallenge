@@ -8,5 +8,5 @@ export interface ICarRepository {
   registerCar(body: ICreateCarDTO) : Promise<HydratedDocument<ICar>>,
   updateCar() : Promise<HydratedDocument<ICar>>,
   updateAccessory() : Promise<HydratedDocument<ICar>>,
-  deleteCar() : Promise<void>
+  deleteCar(id: string) : Promise<number>
 }

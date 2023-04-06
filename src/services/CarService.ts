@@ -57,4 +57,14 @@ export class CarService {
     return car;
   }
 
+  async executeDeleteCarByID(id: string): Promise<void>{
+
+    const deleteCount: number = await this.repository.deleteCar(id);
+
+    if (!deleteCount){
+      throw new AppError("Car not found", 404);
+    }
+    
+    return;
+  }
 }
