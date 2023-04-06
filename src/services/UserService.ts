@@ -6,6 +6,7 @@ import { parseQualified } from "../utils/parseQualified";
 import { AppError } from "../errors/AppError";
 import { getValidCep } from "../utils/getValidCep";
 import { UpdateUserDTO } from "../dto/UpdateUserDTO";
+import { QueryFeatures } from "../utils/QueryFeatures";
 
 interface RequestToRegisterUser{
   name: string,
@@ -30,9 +31,16 @@ export class UserService{
     this.repository = repository;
   }
 
-  async getUsersService(): Promise<object[] | string>{
+  async getUsersService(queryObj?: object): Promise<object[] | string>{
+    
+    let finalObject: object = {};
+    
+    if (queryObj){
+      const queryString = QueryFeatures.filter(queryObj);
+      finalObject = JSON.parse(queryString);
+    }
 
-    const objResponse = await this.repository.getUsers();
+    const objResponse = await this.repository.getUsers(finalObject);
 
     if (objResponse.length === 0){
       const message = "There are no users";

@@ -2,7 +2,7 @@
 
 export class QueryFeatures{
 
-  static filter(queryInfo: object) {
+  static filter(queryInfo: object): string {
     const queryObj = { ...queryInfo };
 
     let queryStr = JSON.stringify(queryObj);

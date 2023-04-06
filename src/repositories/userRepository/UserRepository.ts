@@ -10,9 +10,9 @@ export class UserRepository implements IUserRepository{
     this.repository = repository;
   }
 
-  async getUsers(): Promise<object[]> {
+  async getUsers(queryStr: object): Promise<object[]> {
     
-    const objResponse = await this.repository.find();
+    const objResponse = await this.repository.find(queryStr);
 
     return objResponse;
   }
