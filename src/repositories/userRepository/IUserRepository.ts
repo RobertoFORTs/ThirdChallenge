@@ -8,6 +8,6 @@ export interface IUserRepository{
   getUserByEmail(email: string): Promise<HydratedDocument<IUser> | null>,
   updateUser(user: UpdateUserDTO): Promise<HydratedDocument<IUser> | null>,
   deleteUser(id: string): void,
-  getUsers(queryStr: object): Promise<object[]>,
+  getUsers(queryObj: object, pagination: object): Promise<object[]>,
   getUserById(id: string): Promise<HydratedDocument<IUser> | null>
 }

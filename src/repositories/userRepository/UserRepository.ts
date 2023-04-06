@@ -3,6 +3,7 @@ import { CreateUserDTO } from "../../dto/CreateUserDTO";
 import { IUser } from "../../models/userModel/IUser";
 import { IUserRepository } from "./IUserRepository";
 import { UpdateUserDTO } from "../../dto/UpdateUserDTO";
+import { QueryFeatures } from "../../utils/QueryFeatures";
 
 export class UserRepository implements IUserRepository{
 
@@ -10,9 +11,9 @@ export class UserRepository implements IUserRepository{
     this.repository = repository;
   }
 
-  async getUsers(queryStr: object): Promise<object[]> {
-    
-    const objResponse = await this.repository.find(queryStr);
+  async getUsers(queryObj: object, pagination: object): Promise<object[]> {
+    const pageConfig = QueryFeatures.paginate(pagination);
+    const objResponse = await this.repository.find(queryObj).skip(pageConfig[0]).limit(pageConfig[1]);
 
     return objResponse;
   }

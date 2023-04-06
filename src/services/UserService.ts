@@ -31,16 +31,15 @@ export class UserService{
     this.repository = repository;
   }
 
-  async getUsersService(queryObj?: object): Promise<object[] | string>{
+  async getUsersService(queryObj: object, pagination: object): Promise<object[] | string>{
     
     let finalObject: object = {};
     
-    if (queryObj){
+    if (queryObj && !queryObj.hasOwnProperty("page") && !queryObj.hasOwnProperty("limit")){
       const queryString = QueryFeatures.filter(queryObj);
       finalObject = JSON.parse(queryString);
     }
-
-    const objResponse = await this.repository.getUsers(finalObject);
+    const objResponse = await this.repository.getUsers(finalObject, pagination);
 
     if (objResponse.length === 0){
       const message = "There are no users";

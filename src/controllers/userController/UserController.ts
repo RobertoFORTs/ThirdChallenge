@@ -12,7 +12,13 @@ export class UserController implements IUserController {
 
   async getUsers(req: Request, res: Response): Promise<Response> {
     
-    const objResponse: object[] | string = await userService.getUsersService(req.query);
+    const queryObj = req.query;
+    const pagination = {
+      page: req.query.page,
+      limit: req.query.limit
+    };
+  
+    const objResponse: object[] | string = await userService.getUsersService(queryObj, pagination);
 
     return res.status(200).json({
       status: "success",
