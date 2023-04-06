@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import mongoose from "mongoose";
 import Joi from "joi";
-import { AppError } from "../../errors/AppError";
 import { isCarYearValid } from "../../utils/isCarYearValid";
 import { isCarAccessoryValid } from "../../utils/isCarAccessoryValid";
 
@@ -26,7 +24,7 @@ async function resgisterCarValidator(req: Request, res: Response, next: NextFunc
 
   isCarYearValid(req.body.year);
   isCarAccessoryValid(req.body.accessories);
-  
+
   return next();
 }
 
