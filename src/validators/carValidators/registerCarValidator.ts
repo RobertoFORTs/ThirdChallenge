@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import Joi from "joi";
 import { AppError } from "../../errors/AppError";
+import { isCarYearValid } from "../../utils/isCarYearValid";
 
 
 
@@ -21,6 +22,8 @@ const requestValidation = Joi.object({
 async function resgisterCarValidator(req: Request, res: Response, next: NextFunction): Promise<void> {
 
   await requestValidation.validateAsync(req.body);
+
+  isCarYearValid(req.body.year);
 
   return next();
 }
