@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { HydratedDocument } from "mongoose";
 import { ICarRepository } from "../repositories/carRepository/ICarRepository";
 import { ICar } from "../models/carModel/ICar";
