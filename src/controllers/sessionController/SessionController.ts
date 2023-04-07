@@ -9,7 +9,7 @@ import { IUser } from "../../models/userModel/IUser";
 const userRepository = new UserRepository(User);
 const sessionService = new SessionService(userRepository);
 
-interface AcessRequest{
+interface AcessRequest extends Request{
   headers: { 
     authorization: string | undefined
   },
