@@ -1,3 +1,5 @@
 export interface IUpdateAccessoryDTO{
-  description : string
+  newAccessory: {
+    description : string
+  }
 }

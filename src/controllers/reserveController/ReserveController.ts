@@ -3,6 +3,11 @@ import { ReserveService } from "../../services/ReserveService";
 import { IReserveController } from "./IReserveController";
 import { Request, Response } from "express";
 
+interface IRequest extends Request {
+  user: {
+    _id: string;
+  }
+}
 
 const reserveRepository = new ReserveRepository();
 const reserveService = new ReserveService(reserveRepository);
@@ -43,7 +48,9 @@ export class ReserveController implements IReserveController{
     });
 
   }
-  async registerReserve(req: Request, res: Response): Promise<Response> {
+  async registerReserve(req: IRequest, res: Response): Promise<Response> {
+    
+    Object.assign(req.body, req.user._id);
 
     const newReserve = await reserveService.executeRegister(req.body);
 
@@ -59,7 +66,7 @@ export class ReserveController implements IReserveController{
   async updateReserve(req: Request, res: Response): Promise<Response> {
     
     const objId = {
-      id: req.params.id
+      id_reserve: req.params.id
     };
     Object.assign(req.body, objId);
     const updatedReserve = await reserveService.executeUpdateReserve(req.body);

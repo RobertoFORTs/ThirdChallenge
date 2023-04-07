@@ -5,6 +5,7 @@ import { ICar } from "../models/carModel/ICar";
 import { QueryFeatures } from "../utils/QueryFeatures";
 import { AppError } from "../errors/AppError";
 import { IUpdateCarDTO } from "../dto/UpdateCarDTO";
+import { IUpdateAccessoryDTO } from "../dto/UpdateAccessoryDTO";
 
 interface IRequestToRegister{
   model: string,
@@ -22,7 +23,7 @@ export class CarService {
     this.repository = repository;
   }
 
-  async executeGetCars(queryObj: object, pagination: object){
+  async executeGetCars(queryObj: object, pagination: object): Promise<object[] | string>{
     let finalObject: object = {};
     
     if (queryObj && !queryObj.hasOwnProperty("page") && !queryObj.hasOwnProperty("limit")){
@@ -72,7 +73,7 @@ export class CarService {
 
   async executeUpdateAcessories(id: string, accessoryId: string, newAccessory: object): Promise<object>{
 
-    const updatedAccessory = await this.repository.updateAccessory(id, accessoryId, newAccessory);
+    const updatedAccessory = await this.repository.updateAccessory(id, accessoryId, newAccessory as IUpdateAccessoryDTO);
 
     if (!updatedAccessory){
       throw new AppError("Car not found", 404);
