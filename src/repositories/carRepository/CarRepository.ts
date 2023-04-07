@@ -3,6 +3,7 @@ import { ICar } from "../../models/carModel/ICar";
 import { ICarRepository } from "./ICarRepository";
 import { ICreateCarDTO } from "../../dto/CreateCarDTO";
 import { IUpdateCarDTO } from "../../dto/UpdateCarDTO";
+import { UpdateAccessoryDTO } from "../../dto/UpdateAccessoryDTO";
 
 export class CarRepository implements ICarRepository{
 
@@ -52,9 +53,10 @@ export class CarRepository implements ICarRepository{
 
   }
 
-  async updateAccessory(id: string, accessoryId: string, newAccessory: string): Promise<HydratedDocument<ICar> | null> {
+  async updateAccessory(id: string, accessoryId: string, newAccessory: UpdateAccessoryDTO): Promise<HydratedDocument<ICar> | null> {
 
-    const objQuery = await this.repository.findOneAndUpdate({ _id: id, accessories: { $elemMatch: {_id: accessoryId }}}, {$pull: {"accessories": accessoryId}}, {new: true});
+    const {description} = newAccessory;
+    const objQuery = await this.repository.findOneAndUpdate({ _id: id, accessories: { $elemMatch: { description: description }}}, {$pull: { accessories: { description: description }}}, {new: true});
     
     if (objQuery){
       return objQuery;

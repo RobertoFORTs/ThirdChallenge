@@ -70,7 +70,7 @@ export class CarService {
     return car;
   }
 
-  async executeUpdateAcessories(id: string, accessoryId: string, newAccessory: string): Promise<object>{
+  async executeUpdateAcessories(id: string, accessoryId: string, newAccessory: object): Promise<object>{
 
     const updatedAccessory = await this.repository.updateAccessory(id, accessoryId, newAccessory);
 

@@ -73,10 +73,9 @@ export class CarController implements ICarController{
 
   async updateAccessory(req: Request, res: Response): Promise<Response> {
     
-    const {id, _id} = req.params
-    const newAccessory = req.body;
+    const {id, _id} = req.params;
     
-    const updatedAcessory = await carService.executeUpdateAcessories(id, _id, newAccessory);
+    const updatedAcessory = await carService.executeUpdateAcessories(id, _id, req.body);
 
     return res.status(200).json({
       status: "success",
