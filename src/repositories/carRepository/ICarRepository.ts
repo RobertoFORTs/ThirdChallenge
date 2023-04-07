@@ -8,6 +8,6 @@ export interface ICarRepository {
   getCarById(id: string) : Promise<HydratedDocument<ICar> | null>,
   registerCar(body: ICreateCarDTO) : Promise<HydratedDocument<ICar>>,
   updateCar(body: IUpdateCarDTO) : Promise<HydratedDocument<ICar> | null>,
-  updateAccessory(id: string, accessoryId: string) : Promise<HydratedDocument<ICar> | null>,
+  updateAccessory(id: string, accessoryId: string, newAccessory: string) : Promise<HydratedDocument<ICar> | null>,
   deleteCar(id: string) : Promise<number>
 }
