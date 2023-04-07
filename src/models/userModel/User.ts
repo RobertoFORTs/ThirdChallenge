@@ -52,6 +52,6 @@ userSchema.pre("save", async function (next):Promise<void> {
 	return next();
 })
 
-const User = model<IUser>("user", userSchema);
+const User = model<IUser>("User", userSchema);
 
 export { User }; 

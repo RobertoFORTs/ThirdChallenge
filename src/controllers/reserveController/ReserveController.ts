@@ -1,3 +1,4 @@
+import { Reserve } from "../../models/reserveModel/Reserve";
 import { ReserveRepository } from "../../repositories/reserveRepository/ReserveRepository";
 import { ReserveService } from "../../services/ReserveService";
 import { IReserveController } from "./IReserveController";
@@ -9,7 +10,7 @@ interface IRequest extends Request {
   }
 }
 
-const reserveRepository = new ReserveRepository();
+const reserveRepository = new ReserveRepository(Reserve);
 const reserveService = new ReserveService(reserveRepository);
 
 export class ReserveController implements IReserveController{

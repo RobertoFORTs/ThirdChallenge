@@ -5,7 +5,6 @@ import { QueryFeatures } from "../utils/QueryFeatures";
 import { IReserveRepository } from "../repositories/reserveRepository/IReserveRepository";
 import { IReserve } from "../models/reserveModel/IReserve";
 import { IUpdateReserveDTO } from "../dto/UpdateReserveDTO";
-import { number } from "joi";
 import { ICreateReserveDTO } from "../dto/CreateReserveDTO";
 
 interface IRequestToRegister{
