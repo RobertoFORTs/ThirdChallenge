@@ -1,3 +1,3 @@
-export interface UpdateAccessoryDTO{
+export interface IUpdateAccessoryDTO{
   description : string
 }
