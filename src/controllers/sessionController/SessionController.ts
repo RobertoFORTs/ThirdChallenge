@@ -1,11 +1,8 @@
-import { promisify } from "util";
-import { AppError } from "../../errors/AppError";
 import { User } from "../../models/userModel/User";
 import { UserRepository } from "../../repositories/userRepository/UserRepository";
 import { SessionService } from "../../services/SessionService";
 import { ISessionController } from "./ISessionController";
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { HydratedDocument } from "mongoose";
 import { IUser } from "../../models/userModel/IUser";
 
