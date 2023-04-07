@@ -48,7 +48,7 @@ app.use((err : AppError | ValidationError | Error, req: Request, res: Response, 
   }
   return res.status(500).json({
     status: "error",
-    message: err.message
+    message: "Internal Server Error"
   });
 });
 
