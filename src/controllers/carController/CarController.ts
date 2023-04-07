@@ -71,9 +71,22 @@ export class CarController implements ICarController{
     });
   }
 
-  updateAccessory(req: Request, res: Response): Promise<Response> {
-    throw new Error("Method not implemented.");
+  async updateAccessory(req: Request, res: Response): Promise<Response> {
+    
+    const {id, _id} = req.params
+    const newAccessory = req.body;
+    
+    const updatedAcessory = await carService.executeUpdateAcessories(id, _id, newAccessory);
+
+    return res.status(200).json({
+      status: "success",
+      message: "Updated with success!",
+      data: {
+        updatedAcessory
+      }
+    });
   }
+
   async deleteCar(req: Request, res: Response): Promise<Response> {
     
     const id = req.params.id;

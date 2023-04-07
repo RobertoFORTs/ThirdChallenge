@@ -69,6 +69,17 @@ export class CarService {
     return car;
   }
 
+  async executeUpdateAcessories(id: string, accessoryId: string, newAccessory: string): Promise<object>{
+
+    const updatedAccessory = await this.repository.updateAccessory(id, accessoryId, newAccessory);
+
+    if (!updatedAccessory){
+      throw new AppError("Car not found", 404);
+    }
+
+    return updatedAccessory;
+  }
+
   async executeDeleteCar(id: string): Promise<void>{
 
     const deleteCount: number = await this.repository.deleteCar(id);

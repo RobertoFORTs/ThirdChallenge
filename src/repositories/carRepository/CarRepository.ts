@@ -52,9 +52,16 @@ export class CarRepository implements ICarRepository{
 
   }
 
-  async updateAccessory(): Promise<HydratedDocument<ICar>> {
-  
-    return;
+  async updateAccessory(id: string, accessoryId: string, newAccessory: string): Promise<HydratedDocument<ICar> | null> {
+
+    const objQuery = await this.repository.findOneAndUpdate({ _id: id, accessories: { $elemMatch: {_id: accessoryId }}}, {$pull: {"accessories": accessoryId}}, {new: true});
+    
+    if (objQuery){
+      return objQuery;
+    }
+    const updatedAccessory =  await this.repository.findByIdAndUpdate({_id: id}, {$push: {"accessories": newAccessory}}, {new: true});
+
+    return updatedAccessory;
   }
   async deleteCar(id: string): Promise<number> {
     
