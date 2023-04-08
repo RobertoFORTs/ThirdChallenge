@@ -6,6 +6,12 @@ import { IReserveRepository } from "../repositories/reserveRepository/IReserveRe
 import { IReserve } from "../models/reserveModel/IReserve";
 import { IUpdateReserveDTO } from "../dto/UpdateReserveDTO";
 import { ICreateReserveDTO } from "../dto/CreateReserveDTO";
+import { CarService } from "./CarService";
+import { CarRepository } from "../repositories/carRepository/CarRepository";
+import { Car } from "../models/carModel/Car";
+import { UserRepository } from "../repositories/userRepository/UserRepository";
+import { User } from "../models/userModel/User";
+import { UserService } from "./UserService";
 
 interface IRequestToRegister{
   user_id: string,
@@ -14,11 +20,18 @@ interface IRequestToRegister{
   id_car: string,
 }
 
+const userRepository = new UserRepository(User);
+const userService = new UserService(userRepository);
+
+const carRepository = new CarRepository(Car);
+const carService = new CarService(carRepository);
+
 export class ReserveService {
 
   constructor(private repository: IReserveRepository){
     this.repository = repository;
   }
+
 
 
   async executeGetReserves(queryObj: object, pagination: object): Promise<object[] | string>{
@@ -53,11 +66,33 @@ export class ReserveService {
 
   async executeRegister(body: IRequestToRegister): Promise<HydratedDocument<IReserve>> {
 
-    const value = {
-      final_value: 0
-    };
+    const car = await carService.executeGetCarById(body.id_car);
 
-    //calc final_value
+    const user = await userService.getUserByIdService(body.user_id);
+
+    if (!user?.qualified){
+      throw new AppError("User is not allowed to make reserves: Not qualified", 400);
+    }
+
+    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, body.user_id);
+
+    if (isOverlapping > 0){
+      throw new AppError("User already made a reservation on the same period", 400);
+    }
+
+    const isCarOverlapping = await this.repository.findIfCarIsAvailable(body.start_date, body.end_date, body.id_car);
+
+    if (isCarOverlapping > 0){
+      throw new AppError("Car is not available!", 400);
+    } 
+
+    const endDate = body.end_date.getHours();
+    const startDate = body.end_date.getHours();
+    const numberOfDays = (endDate - startDate)/24;
+    const total = car.value_per_day * numberOfDays;
+    const value = {
+      final_value: total
+    };
 
     Object.assign(body, value);
 

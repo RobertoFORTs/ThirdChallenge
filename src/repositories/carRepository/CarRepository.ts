@@ -53,10 +53,10 @@ export class CarRepository implements ICarRepository{
 
   }
 
-  async updateAccessory(id: string, accessoryId: string, newAccessory: IUpdateAccessoryDTO): Promise<HydratedDocument<ICar> | null> {
+  async updateAccessory(id: string, accessoryId: string, accessory: IUpdateAccessoryDTO): Promise<HydratedDocument<ICar> | null> {
 
-    const {description} = newAccessory;
-    const objQuery = await this.repository.findOneAndUpdate({ _id: id, accessories: { $elemMatch: { description: description }}}, {$pull: { accessories: { description: description }}}, {new: true});
+    const {newAccessory} = accessory;
+    const objQuery = await this.repository.findOneAndUpdate({ _id: id, accessories: { $elemMatch: { description: newAccessory.description }}}, {$pull: { accessories: { description: newAccessory.description }}}, {new: true});
     
     if (objQuery){
       return objQuery;
@@ -71,5 +71,4 @@ export class CarRepository implements ICarRepository{
 
     return deletedCount;
   }
-
 }

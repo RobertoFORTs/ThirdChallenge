@@ -16,7 +16,7 @@ carRouter.get("/", carController.getCars);
 carRouter.get("/:id", idValidator, carController.getCarById);
 carRouter.post("/register", carInfoValidator, carController.registerCar);
 carRouter.put("/update/:id", idValidator, carInfoValidator,carController.updateCar);
-carRouter.put("/update/:id/accessories/:_id", idValidator, updateAccessoryValidator, carController.updateAccessory);
+carRouter.patch("/update/:id/accessories/:_id", idValidator, updateAccessoryValidator, carController.updateAccessory);
 carRouter.delete("/delete/:id", idValidator, carController.deleteCar);
 
 export {carRouter};

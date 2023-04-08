@@ -5,10 +5,10 @@ import { IUpdateCarDTO } from "../../dto/UpdateCarDTO"
 import { IUpdateAccessoryDTO } from "../../dto/UpdateAccessoryDTO"
 
 export interface ICarRepository {
-  getCars(queryObj: object, pagesConfig: number[]) : Promise<object[]>,
-  getCarById(id: string) : Promise<HydratedDocument<ICar> | null>,
-  registerCar(body: ICreateCarDTO) : Promise<HydratedDocument<ICar>>,
-  updateCar(body: IUpdateCarDTO) : Promise<HydratedDocument<ICar> | null>,
-  updateAccessory(id: string, accessoryId: string, newAccessory: IUpdateAccessoryDTO) : Promise<HydratedDocument<ICar> | null>,
-  deleteCar(id: string) : Promise<number>
+  getCars(queryObj: object, pagesConfig: number[]): Promise<object[]>,
+  getCarById(id: string): Promise<HydratedDocument<ICar> | null>,
+  registerCar(body: ICreateCarDTO): Promise<HydratedDocument<ICar>>,
+  updateCar(body: IUpdateCarDTO): Promise<HydratedDocument<ICar> | null>,
+  updateAccessory(id: string, accessoryId: string, newAccessory: IUpdateAccessoryDTO): Promise<HydratedDocument<ICar> | null>,
+  deleteCar(id: string): Promise<number>,
 }

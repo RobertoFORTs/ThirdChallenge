@@ -52,5 +52,35 @@ export class ReserveRepository implements IReserveRepository{
     return deletedCount;
 
   }
+
+  async findIfOverlaps(startDate: Date, endDate: Date, userId: string): Promise<number>{
+
+    const overlapping = await this.repository.find({
+      $and: [
+        { id_user: { $eq: userId}},
+        { $or: [
+          { start_date: {$gte: startDate, $lte: endDate} },
+          { end_date: {$gte: startDate, $lte: endDate} }
+        ]}
+      ]
+    });
+
+    return overlapping.length;
+  }
+
+  async findIfCarIsAvailable(startDate: Date, endDate: Date, carId: string): Promise<number> {
+
+    const overlap = await this.repository.find({
+      $and: [
+        { id_car: { $eq: carId }},
+        { $or: [
+          { start_date: {$gte: startDate, $lte: endDate} },
+          { end_date: {$gte: startDate, $lte: endDate} }
+        ]}
+      ]
+    });
+
+    return overlap.length;
+  }
   
 }
