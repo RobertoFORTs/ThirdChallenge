@@ -64,10 +64,11 @@ export class ReserveRepository implements IReserveRepository{
 
   }
 
-  async findIfOverlaps(startDate: Date, endDate: Date, userId: string): Promise<number>{
+  async findIfOverlaps(startDate: Date, endDate: Date, userId: string, id_reserve?: string): Promise<number>{
 
     const overlapping = await this.repository.find({
       $and: [
+        { _id: { $ne: id_reserve}},
         { id_user: { $eq: userId}},
         { $or: [
           { start_date: {$gte: startDate, $lte: endDate} },
@@ -80,10 +81,11 @@ export class ReserveRepository implements IReserveRepository{
 
   }
 
-  async findIfCarIsAvailable(startDate: Date, endDate: Date, carId: string): Promise<number> {
+  async findIfCarIsAvailable(startDate: Date, endDate: Date, carId: string, id_reserve?: string): Promise<number> {
 
     const overlap = await this.repository.find({
       $and: [
+        { _id: { $ne: id_reserve}},
         { id_car: { $eq: carId }},
         { $or: [
           { start_date: {$gte: startDate, $lte: endDate} },

@@ -12,6 +12,7 @@ import { Car } from "../models/carModel/Car";
 import { UserRepository } from "../repositories/userRepository/UserRepository";
 import { User } from "../models/userModel/User";
 import { UserService } from "./UserService";
+import { string } from "joi";
 
 interface IRequestToRegister{
   id_user: string,
@@ -40,7 +41,7 @@ export class ReserveService {
     this.repository = repository;
   }
 
-  private async validateReservation(body: IRequestToRegister | IRequestToUpdate, userId: string): Promise<object>{
+  private async validateReservation(body: IRequestToRegister | IRequestToUpdate, userId: string, reserveId?: string): Promise<object>{
     
     const car = await carService.executeGetCarById(body.id_car);
 
@@ -50,13 +51,13 @@ export class ReserveService {
       throw new AppError("User is not allowed to make reserves: Not qualified", 400);
     }
 
-    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, userId);
+    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, userId, reserveId);
 
     if (isOverlapping > 0){
       throw new AppError("User already made a reservation on the same period", 400);
     }
 
-    const isCarOverlapping = await this.repository.findIfCarIsAvailable(body.start_date, body.end_date, body.id_car);
+    const isCarOverlapping = await this.repository.findIfCarIsAvailable(body.start_date, body.end_date, body.id_car, reserveId);
 
     if (isCarOverlapping > 0){
       throw new AppError("Car is not available!", 400);
@@ -117,7 +118,7 @@ export class ReserveService {
 
   async executeUpdateReserve(body: IRequestToUpdate): Promise<HydratedDocument<IReserve>>{
     
-    const value = await this.validateReservation(body, body.id_user);
+    const value = await this.validateReservation(body, body.id_user, body.id_reserve);
 
     Object.assign(body, value);
 
