@@ -13,9 +13,15 @@ export class UserRepository implements IUserRepository{
 
   async getUsers(queryObj: object, pagConfig: number[]): Promise<object[]> {
     
+    const totalNumOfDoc = await this.repository.find().countDocuments();
     const objResponse = await this.repository.find(queryObj).skip(pagConfig[0]).limit(pagConfig[1]);
+    const numberOfDoc = {
+      total: totalNumOfDoc
+    }
+    objResponse.push(numberOfDoc);
 
     return objResponse;
+
   }
 
   async getUserById(id: string): Promise<HydratedDocument<IUser> | null>{
@@ -23,6 +29,7 @@ export class UserRepository implements IUserRepository{
     const user = await this.repository.findById(id);
 
     return user;
+
   }
   
   async registerUserUp({name, cpf, birth, email, password, cep, qualified, patio, complement, neighborhood, locality, uf}: CreateUserDTO): Promise<HydratedDocument<IUser>> {
@@ -42,6 +49,7 @@ export class UserRepository implements IUserRepository{
     });
 
     return user;
+
   }
 
   async getUserByEmail(email: string): Promise<HydratedDocument<IUser> | null>{
@@ -72,11 +80,13 @@ export class UserRepository implements IUserRepository{
     });
 
     return updatedUser;
+
   }
   async deleteUser(id: string): Promise<number> {
     
     const {deletedCount} = await this.repository.deleteOne({_id: id});
 
     return deletedCount;
+    
   }
 }

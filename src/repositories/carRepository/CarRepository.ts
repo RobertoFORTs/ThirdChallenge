@@ -19,7 +19,6 @@ export class CarRepository implements ICarRepository{
       total: totalNumOfDoc
     }
     objResponse.push(numberOfDoc);
-    console.log(objResponse);
     return objResponse;
   }
   async getCarById(id: string): Promise<HydratedDocument<ICar> | null>{

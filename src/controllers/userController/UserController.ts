@@ -19,15 +19,26 @@ export class UserController implements IUserController {
     };
   
     const objResponse: object[] = await userService.getUsersService(queryObj, pagination);
-    const numberOfPages = objResponse.length/parseInt(pagination.limit as string);
+    const totalObject = objResponse[objResponse.length-1];
+    const total = Object.values(totalObject)[0];
+
+    objResponse.pop();
+    
+    let newLimit = 0;
+    if (pagination.limit === req.query.limit){
+    newLimit = ((parseInt(req.query.limit.toString())));
+    }
+    const numberOfPages =  (newLimit)? total/newLimit : total/(+pagination.limit);
     const offsets =  numberOfPages < 1 ?  1 : numberOfPages;
+
 
     return res.status(200).json({
       status: "success",
       data: {
         objResponse,
-        limit: pagination.limit,
-        offset: pagination.page,
+        total: total,
+        limit: +(pagination.limit),
+        offset: +(pagination.page),
         offsets: offsets
       }
     });

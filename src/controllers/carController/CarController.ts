@@ -17,9 +17,12 @@ export class CarController implements ICarController{
     };
   
     const objResponse: object[] = await carService.executeGetCars(queryObj, pagination);
+
     const totalObject = objResponse[objResponse.length-1];
     const total = Object.values(totalObject)[0];
+
     objResponse.pop();
+    
     let newLimit = 0;
     if (pagination.limit === req.query.limit){
     newLimit = ((parseInt(req.query.limit.toString())));
@@ -33,8 +36,8 @@ export class CarController implements ICarController{
       data: {
         objResponse,
         total: total,
-        limit: pagination.limit,
-        offset: pagination.page,
+        limit: +pagination.limit,
+        offset: +pagination.page,
         offsets: offsets
       }
     });
