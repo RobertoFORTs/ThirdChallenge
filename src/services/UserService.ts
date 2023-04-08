@@ -81,7 +81,7 @@ export class UserService{
 
     const updatedUser = await this.repository.updateUser(requestbody as UpdateUserDTO);
     if (!updatedUser){
-      throw new AppError("User has not been found", 400);
+      throw new AppError("User has not been found", 404);
     }
 
     return updatedUser;
