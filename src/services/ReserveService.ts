@@ -113,7 +113,7 @@ export class ReserveService {
 
   async executeUpdateReserve(body: IRequestToUpdate): Promise<HydratedDocument<IReserve>>{
 
-    const value = await this.validateReservation(body);
+    const value = await this.validateReservation(body, body.user_id);
 
     Object.assign(body, value);
 
