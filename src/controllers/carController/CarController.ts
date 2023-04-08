@@ -27,7 +27,7 @@ export class CarController implements ICarController{
     if (pagination.limit === req.query.limit){
     newLimit = ((parseInt(req.query.limit.toString())));
     }
-    const numberOfPages =  (newLimit)? total/newLimit : total/(pagination.limit as number);
+    const numberOfPages =  (newLimit)? total/newLimit : total/(+pagination.limit);
     const offsets =  numberOfPages < 1 ?  1 : numberOfPages;
 
 
@@ -41,6 +41,7 @@ export class CarController implements ICarController{
         offsets: offsets
       }
     });
+    
   }
   async getCarById(req: Request, res: Response): Promise<Response> {
     

@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { ICar } from "./ICar";
+import { string } from "joi";
 
 
 const carSchema = new Schema<ICar>({
@@ -22,10 +23,15 @@ const carSchema = new Schema<ICar>({
       }
     }
   ],
-  number_of_passengers:{
+  number_of_passengers: {
     type: Number
+  },
+  __v: {
+    type: Number,
+    required: false,
+    select: false
   }
-})
+}, {versionKey: false});
 
 const Car = model<ICar>("Car", carSchema);
 

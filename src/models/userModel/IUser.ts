@@ -10,5 +10,6 @@ export interface IUser{
   complement: string,
   neighborhood: string,
   locality: string,
-  uf: string
+  uf: string,
+  __v?: number 
 }

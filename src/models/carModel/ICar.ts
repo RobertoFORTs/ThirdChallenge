@@ -5,5 +5,6 @@ export interface ICar {
   year: Date,
   value_per_day: number,
   accessories: object[],
-  number_of_passengers: number
+  number_of_passengers: number,
+  __v?: number 
 }

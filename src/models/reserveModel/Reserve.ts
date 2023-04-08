@@ -19,8 +19,13 @@ const reserveSchema = new Schema<IReserve>({
   },
   final_value: {
     type: Number
+  },
+  __v: {
+    type: Number,
+    required: false,
+    select: false
   }
-});
+}, {versionKey: false});
 
 const Reserve = model<IReserve>("Reserve", reserveSchema);
 
