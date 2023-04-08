@@ -31,7 +31,7 @@ export class UserService{
     this.repository = repository;
   }
 
-  async getUsersService(queryObj: object, pagination: object): Promise<object[] | string>{
+  async getUsersService(queryObj: object, pagination: object): Promise<object[]>{
     
     let finalObject: object = {};
     
@@ -43,8 +43,7 @@ export class UserService{
     const objResponse = await this.repository.getUsers(finalObject, pageConfig);
 
     if (objResponse.length === 0){
-      const message = "There are no users";
-      return message;
+      throw new AppError(" There are no users ", 404);
     }
 
     return objResponse;

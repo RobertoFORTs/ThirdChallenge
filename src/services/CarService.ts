@@ -23,7 +23,7 @@ export class CarService {
     this.repository = repository;
   }
 
-  async executeGetCars(queryObj: object, pagination: object): Promise<object[] | string>{
+  async executeGetCars(queryObj: object, pagination: object): Promise<object[]>{
     let finalObject: object = {};
     
     if (queryObj && !queryObj.hasOwnProperty("page") && !queryObj.hasOwnProperty("limit")){
@@ -34,8 +34,7 @@ export class CarService {
     const objResponse = await this.repository.getCars(finalObject, pageConfig);
 
     if (objResponse.length === 0){
-      const message = "There are no users";
-      return message;
+      throw new AppError("There are no cars", 404);
     }
 
     return objResponse;
