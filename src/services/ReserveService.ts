@@ -102,7 +102,7 @@ export class ReserveService {
 
   async executeRegister(body: IRequestToRegister): Promise<HydratedDocument<IReserve>> {
 
-    const value = this.validateReservation(body); 
+    const value = await this.validateReservation(body); 
 
     Object.assign(body, value);
 
@@ -113,11 +113,7 @@ export class ReserveService {
 
   async executeUpdateReserve(body: IRequestToUpdate): Promise<HydratedDocument<IReserve>>{
 
-    const value = {
-      final_value: 0
-    };
-
-    //calc final_value
+    const value = await this.validateReservation(body);
 
     Object.assign(body, value);
 
