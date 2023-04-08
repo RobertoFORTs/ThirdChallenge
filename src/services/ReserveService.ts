@@ -20,6 +20,10 @@ interface IRequestToRegister{
   id_car: string,
 }
 
+interface IRequestToUpdate extends IRequestToRegister{
+  id_reserve: string
+}
+
 const userRepository = new UserRepository(User);
 const userService = new UserService(userRepository);
 
@@ -32,6 +36,38 @@ export class ReserveService {
     this.repository = repository;
   }
 
+  private async validateReservation(body: IRequestToRegister | IRequestToUpdate): Promise<object>{
+    
+    const car = await carService.executeGetCarById(body.id_car);
+
+    const user = await userService.getUserByIdService(body.user_id);
+
+    if (!user?.qualified){
+      throw new AppError("User is not allowed to make reserves: Not qualified", 400);
+    }
+
+    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, body.user_id);
+
+    if (isOverlapping > 0){
+      throw new AppError("User already made a reservation on the same period", 400);
+    }
+
+    const isCarOverlapping = await this.repository.findIfCarIsAvailable(body.start_date, body.end_date, body.id_car);
+
+    if (isCarOverlapping > 0){
+      throw new AppError("Car is not available!", 400);
+    } 
+
+    const endDate = body.end_date.getHours();
+    const startDate = body.end_date.getHours();
+    const numberOfDays = (endDate - startDate)/24;
+    const total = car.value_per_day * numberOfDays;
+    const value = {
+      final_value: total
+    };
+
+    return value;
+  }
 
 
   async executeGetReserves(queryObj: object, pagination: object): Promise<object[] | string>{
@@ -66,33 +102,7 @@ export class ReserveService {
 
   async executeRegister(body: IRequestToRegister): Promise<HydratedDocument<IReserve>> {
 
-    const car = await carService.executeGetCarById(body.id_car);
-
-    const user = await userService.getUserByIdService(body.user_id);
-
-    if (!user?.qualified){
-      throw new AppError("User is not allowed to make reserves: Not qualified", 400);
-    }
-
-    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, body.user_id);
-
-    if (isOverlapping > 0){
-      throw new AppError("User already made a reservation on the same period", 400);
-    }
-
-    const isCarOverlapping = await this.repository.findIfCarIsAvailable(body.start_date, body.end_date, body.id_car);
-
-    if (isCarOverlapping > 0){
-      throw new AppError("Car is not available!", 400);
-    } 
-
-    const endDate = body.end_date.getHours();
-    const startDate = body.end_date.getHours();
-    const numberOfDays = (endDate - startDate)/24;
-    const total = car.value_per_day * numberOfDays;
-    const value = {
-      final_value: total
-    };
+    const value = this.validateReservation(body); 
 
     Object.assign(body, value);
 
@@ -101,7 +111,7 @@ export class ReserveService {
     return reserve;
   }
 
-  async executeUpdateReserve(body: object): Promise<HydratedDocument<IReserve>>{
+  async executeUpdateReserve(body: IRequestToUpdate): Promise<HydratedDocument<IReserve>>{
 
     const value = {
       final_value: 0
