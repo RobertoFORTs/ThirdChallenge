@@ -13,8 +13,13 @@ export class CarRepository implements ICarRepository{
 
   async getCars(queryObj: object, pageConfig: number[]): Promise<object[]>{
     
+    const totalNumOfDoc = await this.repository.find().countDocuments();
     const objResponse = await this.repository.find(queryObj).skip(pageConfig[0]).limit(pageConfig[1]);
-
+    const numberOfDoc = {
+      total: totalNumOfDoc
+    }
+    objResponse.push(numberOfDoc);
+    console.log(objResponse);
     return objResponse;
   }
   async getCarById(id: string): Promise<HydratedDocument<ICar> | null>{
