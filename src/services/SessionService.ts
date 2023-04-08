@@ -54,8 +54,9 @@ export class SessionService {
     }
   
     const validateToken: any = await promisify(jwt.verify)(token, process.env.JWT_SECRET!);
+    
     const currentUser = await this.repository.getUserById(validateToken.id);
-
+    
     if (!currentUser){
       throw new AppError("User does not exist", 404);
     }

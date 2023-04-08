@@ -34,10 +34,12 @@ export class SessionController implements ISessionController{
   static async authGrantAccess (req: AcessRequest, res: Response, next: NextFunction): Promise<void>{
     
     const {authorization}= req.headers;
+    
     const current = await sessionService.executeGrantAccess(authorization);
     
     req.user = current;
     res.locals.user = current;
+    
     return next();
   }
 }

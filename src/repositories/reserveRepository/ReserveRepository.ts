@@ -11,7 +11,7 @@ export class ReserveRepository implements IReserveRepository{
     this.repository = repository;
   }
 
-  async getReserves(queryObj: object, pageConfig: number[]): Promise<object[]> {
+  async getReserves(queryObj: object, pageConfig: number[]): Promise<HydratedDocument<IReserve>[]> {
     const objResponse = await this.repository.find(queryObj).skip(pageConfig[0]).limit(pageConfig[1]);
 
     return objResponse;
@@ -21,13 +21,14 @@ export class ReserveRepository implements IReserveRepository{
 
     return reserve;
   }
-  async registerReserve({user_id, start_date, end_date, id_car, final_value}: ICreateReserveDTO): Promise<HydratedDocument<IReserve>> {
+  async registerReserve({ start_date, end_date, id_car, final_value, id_user }: ICreateReserveDTO): Promise<HydratedDocument<IReserve>> {
+
     const reserve = await this.repository.create({
-      user_id,
       start_date,
+      id_user,
       end_date,
       id_car,
-      final_value
+      final_value, 
     })
     
     return reserve;

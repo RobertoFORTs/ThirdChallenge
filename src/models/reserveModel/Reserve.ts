@@ -3,7 +3,7 @@ import { IReserve } from "./IReserve";
 
 const reserveSchema = new Schema<IReserve>({
   
-  id_user:{
+  id_user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },

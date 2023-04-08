@@ -36,17 +36,17 @@ export class ReserveService {
     this.repository = repository;
   }
 
-  private async validateReservation(body: IRequestToRegister | IRequestToUpdate): Promise<object>{
+  private async validateReservation(body: IRequestToRegister | IRequestToUpdate, userId: string): Promise<object>{
     
     const car = await carService.executeGetCarById(body.id_car);
 
-    const user = await userService.getUserByIdService(body.user_id);
+    const user = await userService.getUserByIdService(userId);
 
     if (!user?.qualified){
       throw new AppError("User is not allowed to make reserves: Not qualified", 400);
     }
 
-    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, body.user_id);
+    const isOverlapping = await this.repository.findIfOverlaps(body.start_date, body.end_date, userId);
 
     if (isOverlapping > 0){
       throw new AppError("User already made a reservation on the same period", 400);
@@ -58,10 +58,10 @@ export class ReserveService {
       throw new AppError("Car is not available!", 400);
     } 
 
-    const endDate = body.end_date.getHours();
-    const startDate = body.end_date.getHours();
-    const numberOfDays = (endDate - startDate)/24;
+    const diffinMiliseconds = new Date(body.end_date) - new Date(body.start_date);
+    const numberOfDays = (diffinMiliseconds)/(1000*60*60*24);
     const total = car.value_per_day * numberOfDays;
+    
     const value = {
       final_value: total
     };
@@ -70,7 +70,7 @@ export class ReserveService {
   }
 
 
-  async executeGetReserves(queryObj: object, pagination: object): Promise<object[] | string>{
+  async executeGetReserves(queryObj: object, pagination: object): Promise<HydratedDocument<IReserve>[]>{
     let finalObject: object = {};
     
     if (queryObj && !queryObj.hasOwnProperty("page") && !queryObj.hasOwnProperty("limit")){
@@ -81,8 +81,7 @@ export class ReserveService {
     const objResponse = await this.repository.getReserves(finalObject, pageConfig);
 
     if (objResponse.length === 0){
-      const message = "There are no users";
-      return message;
+      throw new AppError("There are no reserves yet", 200);
     }
 
     return objResponse;
@@ -100,13 +99,14 @@ export class ReserveService {
 
   }
 
-  async executeRegister(body: IRequestToRegister): Promise<HydratedDocument<IReserve>> {
+  async executeRegister(body: IRequestToRegister, userId: string): Promise<HydratedDocument<IReserve>> {
 
-    const value = await this.validateReservation(body); 
-
-    Object.assign(body, value);
-
-    const reserve = await this.repository.registerReserve(body as ICreateReserveDTO);
+    const value = await this.validateReservation(body, userId); 
+    const user = {
+      id_user: userId.toString()
+    };
+    Object.assign(body, value, user);
+    const reserve = await this.repository.registerReserve(body as unknown as ICreateReserveDTO);
 
     return reserve;
   }
@@ -117,7 +117,7 @@ export class ReserveService {
 
     Object.assign(body, value);
 
-    const reserve = await this.repository.updateReserve(body as IUpdateReserveDTO);
+    const reserve = await this.repository.updateReserve(body as unknown as IUpdateReserveDTO);
 
     if (!reserve){
       throw new AppError("Reserve not found", 404);

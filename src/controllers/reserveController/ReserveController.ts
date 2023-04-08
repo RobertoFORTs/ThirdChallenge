@@ -1,8 +1,10 @@
+import { HydratedDocument } from "mongoose";
 import { Reserve } from "../../models/reserveModel/Reserve";
 import { ReserveRepository } from "../../repositories/reserveRepository/ReserveRepository";
 import { ReserveService } from "../../services/ReserveService";
 import { IReserveController } from "./IReserveController";
 import { Request, Response } from "express";
+import { IReserve } from "../../models/reserveModel/IReserve";
 
 interface IRequest extends Request {
   user: {
@@ -20,16 +22,27 @@ export class ReserveController implements IReserveController{
     
     const queryObj = req.query;
     const pagination = {
-      page: req.query.page,
-      limit: req.query.limit
+      page: req.query.page || 1,
+      limit: req.query.limit || 100
     };
   
-    const objResponse: object[] | string = await reserveService.executeGetReserves(queryObj, pagination);
+    const objResponse: HydratedDocument<IReserve>[] = await reserveService.executeGetReserves(queryObj, pagination);
+    const numberOfPages = objResponse.length/parseInt(pagination.limit as string);
+    const offsets =  numberOfPages < 1 ?  1 : numberOfPages;
+    
+    let total = 0;
+    for (let i = 0; i < objResponse.length; i++){
+      total = total + objResponse[i].final_value;
+    }
 
     return res.status(200).json({
       status: "success",
       data: {
-        objResponse
+        objResponse,
+        total: total,
+        limit: pagination.limit,
+        offset: pagination.page,
+        offsets: offsets
       }
     });
 
@@ -50,10 +63,8 @@ export class ReserveController implements IReserveController{
 
   }
   async registerReserve(req: IRequest, res: Response): Promise<Response> {
-    
-    Object.assign(req.body, req.user._id);
-
-    const newReserve = await reserveService.executeRegister(req.body);
+    req.user._id = req.user._id.toString();
+    const newReserve = await reserveService.executeRegister(req.body, req.user._id);
 
     return res.status(201).json({
       status: "success",
