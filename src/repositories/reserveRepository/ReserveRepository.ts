@@ -12,14 +12,23 @@ export class ReserveRepository implements IReserveRepository{
   }
 
   async getReserves(queryObj: object, pageConfig: number[]): Promise<HydratedDocument<IReserve>[]> {
+    
+    const totalNumOfDoc = await this.repository.find().countDocuments();
     const objResponse = await this.repository.find(queryObj).skip(pageConfig[0]).limit(pageConfig[1]);
+    
+    const numberOfDoc = {
+      total: totalNumOfDoc
+    }
+    objResponse.push(numberOfDoc);
 
     return objResponse;
+
   }
   async getReserveById(id: string): Promise<HydratedDocument<IReserve> | null> {
     const reserve = await this.repository.findById(id);
 
     return reserve;
+
   }
   async registerReserve({ start_date, end_date, id_car, final_value, id_user }: ICreateReserveDTO): Promise<HydratedDocument<IReserve>> {
 
@@ -32,6 +41,7 @@ export class ReserveRepository implements IReserveRepository{
     })
     
     return reserve;
+
   }
   async updateReserve({id_reserve, id_user, start_date, end_date, id_car, final_value }: IUpdateReserveDTO): Promise<HydratedDocument<IReserve> | null> {
     
@@ -67,6 +77,7 @@ export class ReserveRepository implements IReserveRepository{
     });
 
     return overlapping.length;
+
   }
 
   async findIfCarIsAvailable(startDate: Date, endDate: Date, carId: string): Promise<number> {
@@ -82,6 +93,7 @@ export class ReserveRepository implements IReserveRepository{
     });
 
     return overlap.length;
+    
   }
   
 }

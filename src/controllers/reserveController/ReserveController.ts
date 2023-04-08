@@ -27,21 +27,26 @@ export class ReserveController implements IReserveController{
     };
   
     const objResponse: HydratedDocument<IReserve>[] = await reserveService.executeGetReserves(queryObj, pagination);
-    const numberOfPages = objResponse.length/parseInt(pagination.limit as string);
-    const offsets =  numberOfPages < 1 ?  1 : numberOfPages;
+    const totalObject = objResponse[objResponse.length-1];
+    const total = Object.values(totalObject)[0];
+
+    objResponse.pop();
     
-    let total = 0;
-    for (let i = 0; i < objResponse.length; i++){
-      total = total + objResponse[i].final_value;
+    let newLimit = 0;
+    if (pagination.limit === req.query.limit){
+    newLimit = ((parseInt(req.query.limit.toString())));
     }
+    const numberOfPages =  (newLimit)? total/newLimit : total/(+pagination.limit);
+    const offsets =  numberOfPages < 1 ?  1 : numberOfPages;
+
 
     return res.status(200).json({
       status: "success",
       data: {
         objResponse,
         total: total,
-        limit: pagination.limit,
-        offset: pagination.page,
+        limit: +pagination.limit,
+        offset: +pagination.page,
         offsets: offsets
       }
     });
