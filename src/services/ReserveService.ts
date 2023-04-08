@@ -14,13 +14,17 @@ import { User } from "../models/userModel/User";
 import { UserService } from "./UserService";
 
 interface IRequestToRegister{
-  user_id: string,
+  id_user: string,
   start_date: Date,
   end_date: Date,
   id_car: string,
 }
 
 interface IRequestToUpdate extends IRequestToRegister{
+  id_user: string,
+  start_date: Date,
+  end_date: Date,
+  id_car: string,
   id_reserve: string
 }
 
@@ -99,11 +103,11 @@ export class ReserveService {
 
   }
 
-  async executeRegister(body: IRequestToRegister, userId: string): Promise<HydratedDocument<IReserve>> {
+  async executeRegister(body: IRequestToRegister, id_user: string): Promise<HydratedDocument<IReserve>> {
 
-    const value = await this.validateReservation(body, userId); 
+    const value = await this.validateReservation(body, id_user); 
     const user = {
-      id_user: userId.toString()
+      id_user: id_user.toString()
     };
     Object.assign(body, value, user);
     const reserve = await this.repository.registerReserve(body as unknown as ICreateReserveDTO);
@@ -112,8 +116,8 @@ export class ReserveService {
   }
 
   async executeUpdateReserve(body: IRequestToUpdate): Promise<HydratedDocument<IReserve>>{
-
-    const value = await this.validateReservation(body, body.user_id);
+    
+    const value = await this.validateReservation(body, body.id_user);
 
     Object.assign(body, value);
 
