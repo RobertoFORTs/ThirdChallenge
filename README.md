@@ -170,8 +170,7 @@ e.g.:
 Swagger documentation:
 
 
-Postman documentation:
-[<https://documenter.getpostman.com/view/26268056/2s93JtRPTn>](https://elements.getpostman.com/redirect?entityId=26268056-0c29c3b7-da3d-47e2-b334-9375f887787a&entityType=collection)
+Postman documentation:[<https://www.postman.com/solar-satellite-852587/workspace/my-first-workspace/collection/26268056-0c29c3b7-da3d-47e2-b334-9375f887787a?ctx=documentation>]
 
 --------------------------------------------------------------
 ## Features
