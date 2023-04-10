@@ -100,7 +100,7 @@ e.g.:
 ![image](https://user-images.githubusercontent.com/114432972/224577983-cb42b184-c069-4376-8094-92918da81357.png)
 
 --------------------------------------------------------------
-**For every route, the required body to make the request follow the requisits documentation for this projetc!!**
+**For every route, the required body to make the request follow the requisits documentation for this project!!**
 
 #### Car Routes
 --------------------------------------------------------------
@@ -174,3 +174,8 @@ Postman: <https://www.postman.com/solar-satellite-852587/workspace/my-first-work
 
 --------------------------------------------------------------
 ## Features
+There are no user Roles:
+ - User can login
+ - Can do all CRUD operations for Users
+ - Can do all CRUD operations for Reserves 
+ - Can do all CRUD operations for Cars (plus the operation of updating an specific accessory)
