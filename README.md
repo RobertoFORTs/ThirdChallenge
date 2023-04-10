@@ -92,7 +92,7 @@ e.g.:
 --------------------------------------------------------------
 **Another important setup for your postman is(This should be applied only in Log in and Sign Up routes):**
 
-![image](https://user-images.githubusercontent.com/114432972/224577983-cb42b184-c069-4376-8094-92918da81357
+![image](https://user-images.githubusercontent.com/114432972/224577983-cb42b184-c069-4376-8094-92918da81357.png)
 
 --------------------------------------------------------------
 
