@@ -49,8 +49,8 @@ Project is created with:
 * "ts-node-dev": "^2.0.0"
 * "typescript": "^4.9.5"
 
-## Deploy
-<https://thirdchallenge-production.up.railway.app>
+## Deploy domain
+<thirdchallenge-production.up.railway.app>
 
 ## Setup
 Please see the appropriate guide for the enviroment of choice.
