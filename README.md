@@ -171,7 +171,7 @@ Swagger documentation:
 
 
 Postman documentation:
-<https://documenter.getpostman.com/view/26268056/2s93JtRPTn>
+[<https://documenter.getpostman.com/view/26268056/2s93JtRPTn>](https://elements.getpostman.com/redirect?entityId=26268056-0c29c3b7-da3d-47e2-b334-9375f887787a&entityType=collection)
 
 --------------------------------------------------------------
 ## Features
