@@ -50,7 +50,7 @@ Project is created with:
 * "typescript": "^4.9.5"
 
 ## Deploy
-
+<https://thirdchallenge-production.up.railway.app>
 
 ## Setup
 Please see the appropriate guide for the enviroment of choice.
