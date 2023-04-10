@@ -167,7 +167,7 @@ e.g.:
 
 ## Document
 
-Swagger documentation: <http://localhost:3000/api/v1/apiDocs>
+Swagger documentation: <http://localhost:3000/api/v1/apiDocs/>
 
 
 Postman: <https://www.postman.com/solar-satellite-852587/workspace/my-first-workspace/collection/26268056-0c29c3b7-da3d-47e2-b334-9375f887787a?ctx=documentation>
