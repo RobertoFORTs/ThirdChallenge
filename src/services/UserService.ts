@@ -10,6 +10,7 @@ import { QueryFeatures } from "../utils/QueryFeatures";
 
 interface RequestToRegisterUser{
   name: string,
+  cpf: string,
   birth: Date,
   email: string,
   password: string,

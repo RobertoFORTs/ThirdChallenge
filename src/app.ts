@@ -5,6 +5,8 @@ import { ValidationError } from "joi";
 import { connect } from "mongoose";
 import { AppError } from "./errors/AppError";
 import { router } from "./routes";
+import swaggerUI from "swagger-ui-express";
+import swaggerDocs from "./swagger.json";
 
 dotenv.config({path: "./config.env"});
 
@@ -12,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 
+app.use("/apiDocs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use(router);
 
 const DB = process.env.DATABASE!.replace("<PASSWORD>", process.env.DATABASE_PASSWORD!);

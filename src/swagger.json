@@ -1,0 +1,512 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "System for Car reservation",
+    "version": "1.0.0",
+    "description": "A RESTfull API to gerenciate car reservations."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "apis": [
+    {
+      "path": "/api/*"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Reserves",
+      "description": "Endpoints for Reserves"
+    }
+  ],
+  "paths": {
+    "/reserves/register": {
+      "post": {
+        "summary": "Create a new car reservation",
+        "tags": [
+          "Reservations"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "start_date",
+                  "end_date",
+                  "id_car"
+                ],
+                "properties": {
+                  "start_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start date of the reservation in ISO 8601 format",
+                    "example": "2023-04-10T10:00:00Z"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End date of the reservation in ISO 8601 format",
+                    "example": "2023-04-15T18:00:00Z"
+                  },
+                  "id_car": {
+                    "type": "string",
+                    "description": "ID of the car to be reserved",
+                    "example": "642f23bf5aa3d61e9d218fe6"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reservation created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of the reservation"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Start date of the reservation in ISO 8601 format"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "End date of the reservation in ISO 8601 format"
+                    },
+                    "id_car": {
+                      "type": "string",
+                      "description": "ID of the reserved car"
+                    },
+                    "id_user": {
+                      "type": "string",
+                      "description": "ID of the user making the reservation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+  },
+
+  "/reserves": {
+    "get": {
+      "summary": "Get all reservations",
+      "tags": [
+        "Reservations"
+      ],
+      "responses": {
+        "200": {
+          "description": "List of all reservations",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Reservation ID"
+                    },
+                    "start_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "Start date of the reservation"
+                    },
+                    "end_date": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "End date of the reservation"
+                    },
+                    "id_car": {
+                      "type": "string",
+                      "description": "ID of the car reserved"
+                    },
+                    "id_user": {
+                      "type": "string",
+                      "description": "ID of the user who made the reservation"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Not authorized"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "/reserves/{id}": {
+    "get": {
+      "summary": "Get reservation by ID",
+      "description": "Returns a reservation with the given ID.",
+      "tags": [
+        "Reservations"
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of the reservation to retrieve",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Reservation found.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "id_car": {
+                    "type": "string"
+                  },
+                  "id_user": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Reservation not found"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "/reserves/update/{id}": {
+    "put": {
+      "summary": "Update an existing car reservation",
+      "tags": [
+        "Reservations"
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of the reservation to be updated",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "12345"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "start_date",
+                "end_date",
+                "id_car",
+                "id_user"
+              ],
+              "properties": {
+                "start_date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Start date of the reservation in ISO 8601 format",
+                  "example": "2023-04-10T10:00:00Z"
+                },
+                "end_date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "End date of the reservation in ISO 8601 format",
+                  "example": "2023-04-15T18:00:00Z"
+                },
+                "id_car": {
+                  "type": "string",
+                  "description": "ID of the car to be reserved",
+                  "example": "642f23bf5aa3d61e9d218fe6"
+                },
+                "id_user": {
+                  "type": "string",
+                  "description": "ID of the user who made the reservation",
+                  "example": "abc123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Reservation updated successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "start_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start date of the reservation in ISO 8601 format",
+                    "example": "2023-04-10T10:00:00Z"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End date of the reservation in ISO 8601 format",
+                    "example": "2023-04-15T18:00:00Z"
+                  },
+                  "id_car": {
+                    "type": "string",
+                    "description": "ID of the reserved car",
+                    "example": "642f23bf5aa3d61e9d218fe6"
+                  },
+                  "id_user": {
+                    "type": "string",
+                    "description": "ID of the user who made the reservation",
+                    "example": "abc123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request"
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Reservation not found"
+        },
+        "500": {
+          "description": "Internal server error"
+        }
+      }
+    }
+  },
+  "/reserves/delete/{id}": {
+    "delete": {
+      "summary": "Cancel a car reservation",
+      "tags": [
+        "Reservations"
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "ID of the reservation to be canceled",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "12345"
+          }
+        }
+      ],
+      "responses": {
+        "204": {
+          "description": "Reservation canceled successfully"
+        },
+        "400": {
+          "description": "Invalid request"
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Reservation not found"
+        },
+        "500": {
+          "description": "Internal server error"
+        }
+      }
+    }
+  },
+  "/car/register": {
+    "post": {
+      "summary": "Creates a new car",
+      "tags": [
+        "Cars"
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "model": {
+                  "type": "string",
+                  "example": "Audi TT"
+                },
+                "color": {
+                  "type": "string",
+                  "example": "red"
+                },
+                "year": {
+                  "type": "string",
+                  "example": "2023"
+                },
+                "value_per_day": {
+                  "type": "string",
+                  "example": "50"
+                },
+                "accessories": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "example": "air conditioner"
+                      }
+                    }
+                  }
+                },
+                "number_of_passengers": {
+                  "type": "string",
+                  "example": "5"
+                }
+              },
+              "required": [
+                "model",
+                "color",
+                "year",
+                "value_per_day",
+                "accessories",
+                "number_of_passengers"
+              ]
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Car created successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "bce2025b-d2c8-4b71-8285-5a9d14a80b10"
+                  },
+                  "model": {
+                    "type": "string",
+                    "example": "Audi TT"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "red"
+                  },
+                  "year": {
+                    "type": "string",
+                    "example": "2023"
+                  },
+                  "value_per_day": {
+                    "type": "string",
+                    "example": "50"
+                  },
+                  "accessories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "type": "string",
+                          "example": "air conditioner"
+                        }
+                      }
+                    }
+                  },
+                  "number_of_passengers": {
+                    "type": "string",
+                    "example": "5"
+                  }
+                },
+                "required": [
+                  "id",
+                  "model",
+                  "color",
+                  "year",
+                  "value_per_day",
+                  "accessories",
+                  "number_of_passengers"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid request"
+        },
+        "500": {
+          "description": "Internal server error"
+        }
+      }
+    }
+  }
+  
+}
+}

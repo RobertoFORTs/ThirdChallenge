@@ -37,7 +37,7 @@ export class ReserveController implements IReserveController{
     newLimit = ((parseInt(req.query.limit.toString())));
     }
     const numberOfPages =  (newLimit)? total/newLimit : total/(+pagination.limit);
-    const offsets =  numberOfPages < 1 ?  1 : numberOfPages;
+    const offsets =  numberOfPages < 1 ?  1 : Math.ceil(numberOfPages);
 
 
     return res.status(200).json({
