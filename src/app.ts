@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use(router);
+app.use(router);  
 
 const DB = process.env.DATABASE!.replace("<PASSWORD>", process.env.DATABASE_PASSWORD!);
 connect(DB)
